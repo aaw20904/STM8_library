@@ -1,6 +1,6 @@
 ;STM8 assembler TIM1, TIM2 library
 ;Author: Andrii Androsowych
-
+;NOTE: defines in bodies od procedures can conflict between each other
 ;  _____ ___ __  __ _ 
 ; |_   _|_ _|  \/  / |
 ;   | |  | || |\/| | |
