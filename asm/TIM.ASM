@@ -96,14 +96,14 @@ tim1BaseModeSetupIT
 	POP A
 	RET
 
-  ;--TEST PASSED!
-		;===PROCEDURE 'tim1OutputCompareCh1Setup'
-  ;@presc16,  
+        ;--TEST PASSED!
+	;===PROCEDURE 'tim1OutputCompareCh1Setup'
+        ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> capture compare CCR1 content
 	;@mode8,  -> (CCMR)PIN  beheviavour: $10 active on match
-							;$20 inactive on muatch $30 toggle pin
-							;$40 force inactive Level $50 force active level
+				;$20 inactive on muatch $30 toggle pin
+				;$40 force inactive Level $50 force active level
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	; SP after RETURN +9
@@ -134,7 +134,7 @@ tim1OutputCompareCh1Setup
 	LD TIM1_CCR1H, A
 	LD A, (_002_compL,SP)
 	LD TIM1_CCR1L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_002_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_002_prescL,SP)
@@ -172,13 +172,13 @@ tim1OutputCompareCh1Setup
 	POP A
 	RET 
 	;--TEST PASSED!
-		;===PROCEDURE 'tim1OutputCompareCh2Setup'
-  ;@presc16,  
+	;===PROCEDURE 'tim1OutputCompareCh2Setup'
+ 	 ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> capture compare CCR1 content
 	;@mode8,  -> (CCMR)PIN  beheviavour: $10 active on match
-							;$20 inactive on muatch $30 toggle pin
-							;$30 force inactive Level $50 force active level
+			;$20 inactive on muatch $30 toggle pin
+			;$30 force inactive Level $50 force active level
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	; SP after RETURN +9
@@ -208,7 +208,7 @@ tim1OutputCompareCh2Setup
 	LD TIM1_CCR2H, A
 	LD A, (_003_compL,SP)
 	LD TIM1_CCR2L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_003_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_003_prescL,SP)
@@ -246,22 +246,22 @@ tim1OutputCompareCh2Setup
 	POP A
 	RET
 	;--TEST PASSED!
-			;===PROCEDURE 'tim1OutputCompareCh3Setup'
+	;===PROCEDURE 'tim1OutputCompareCh3Setup'
 	;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> capture compare CCR1 content
 	;@mode8,  -> (CCMR)PIN  beheviavour: $10 active on match
-							;$20 inactive on muatch $30 toggle pin
-							;$30 force inactive Level $50 force active level
+			;$20 inactive on muatch $30 toggle pin
+			;$30 force inactive Level $50 force active level
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	; SP after RETURN +9
 	;stack frame:
 	;[v8a|A|return|prel|pol|mode|comp|base|presc]
 tim1OutputCompareCh3Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _004_v8a $00
 	#define _004_prel $05
@@ -273,7 +273,7 @@ tim1OutputCompareCh3Setup
 	#define _004_baseL $0B
 	#define _004_prescH $0C
 	#define _004_prescL $0D
-		;--disable timer
+	;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
@@ -282,7 +282,7 @@ tim1OutputCompareCh3Setup
 	LD TIM1_CCR3H, A
 	LD A, (_004_compL,SP)
 	LD TIM1_CCR3L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_004_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_004_prescL,SP)
@@ -319,13 +319,13 @@ tim1OutputCompareCh3Setup
 	POP A
 	RET
 	;--TEST PASSED!
-		;===PROCEDURE 'tim1OutputCompareCh4Setup'
+	;===PROCEDURE 'tim1OutputCompareCh4Setup'
 	;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> capture compare CCR1 content
 	;@mode8,  -> (CCMR)PIN  beheviavour: $10 active on match
-							;$20 inactive on muatch $30 toggle pin
-							;$30 force inactive Level $50 force active level
+				;$20 inactive on muatch $30 toggle pin
+				;$30 force inactive Level $50 force active level
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	; SP after RETURN +9
@@ -393,22 +393,22 @@ tim1OutputCompareCh4Setup
 	POP A
 	RET
 	;--TEST PASSED!
-		;===PROCEDURE 'tim1PwmCh1Setup'
-  ;@presc16,  
+	;===PROCEDURE 'tim1PwmCh1Setup'
+ 	 ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+			 ;$70 iPWM_MODE2
+			;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	; SP after RETURN +9
 	;stack frame:
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim1PwmCh1Setup
-		PUSH A
+	PUSH A
 	;allocate memory
-  SUBW SP, #$01	
+        SUBW SP, #$01	
 	;-variables
 	#define _006_v8a  $00 
 	#define _006_prel $05
@@ -429,7 +429,7 @@ tim1PwmCh1Setup
 	LD TIM1_CCR1H, A
 	LD A, (_006_compL,SP)
 	LD TIM1_CCR1L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_006_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_006_prescL,SP)
@@ -470,7 +470,7 @@ tim1PwmCh1Setup
 	
 	;--TEST PASSED!
   ;===PROCEDURE 'tim1PwmCh2Setup'
-  ;@presc16,  
+        ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
@@ -482,9 +482,9 @@ tim1PwmCh1Setup
 	;stack frame:
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim1PwmCh2Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _007_v8a $00
 	#define _007_prel $05
@@ -505,7 +505,7 @@ tim1PwmCh2Setup
 	LD TIM1_CCR2H, A
 	LD A, (_007_compL,SP)
 	LD TIM1_CCR2L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_007_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_007_prescL,SP)
@@ -545,7 +545,7 @@ tim1PwmCh2Setup
 	
 	;--TEST PASSED!	 
 	;===PROCEDURE 'tim1PwmCh3Setup'
-  ;@presc16,  
+        ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
@@ -553,13 +553,13 @@ tim1PwmCh2Setup
 		  ;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
-	
+	;SP+9
 	;stack frame:
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim1PwmCh3Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _008_v8a $00
 	#define _008_prel $05
@@ -571,7 +571,7 @@ tim1PwmCh3Setup
 	#define _008_baseL $0B
 	#define _008_prescH $0C
 	#define _008_prescL $0D
-		;--disable timer
+	;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
@@ -620,22 +620,22 @@ tim1PwmCh3Setup
 	
 	
 	;--TEST PASSED!	
-		;===PROCEDURE 'tim1PwmCh4Setup'
-  ;@presc16,  
+	;===PROCEDURE 'tim1PwmCh4Setup'
+ 	 ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+			      ;$70 iPWM_MODE2
+			   ;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	
 	;stack frame:
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim1PwmCh4Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _009_v8a $00
 	#define _009_prel $05
@@ -670,7 +670,7 @@ tim1PwmCh4Setup
 	LD A, (_009_mode,SP)
 	LD TIM1_CCMR4, A
 	;--polarity
-; 1)store content of another channels
+       ; 1)store content of another channels
 	LD A, TIM1_CCER2
 	AND A, #$0F
 	LD (_009_v8a,SP), A; store
@@ -703,15 +703,15 @@ tim1OnePulseModeStart
 	OR A, #$09; ///ONE PULSE MODE + Go
 	LD TIM1_CR1, A
 	RET
-		;--TEST PASSED!
-			;===PROCEDURE 'tim1OnePulsePwmCh1Setup'
+	;--TEST PASSED!
+	;===PROCEDURE 'tim1OnePulsePwmCh1Setup'
 	;timer is stopped!To start, call - 'tim1OnePulseModeStart'
-  ;@presc16,  
+        ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+				;$70 iPWM_MODE2
+				;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	;after return: SP+9
@@ -741,7 +741,7 @@ tim1OnePulsePwmCh1Setup
 	LD TIM1_CCR1H, A
 	LD A, (_010_compL,SP)
 	LD TIM1_CCR1L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_010_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_010_prescL,SP)
@@ -780,23 +780,23 @@ tim1OnePulsePwmCh1Setup
 	RET 
 	
 	;--TEST PASSED!
-		;===PROCEDURE 'tim1OnePulsePwmCh2Setup'
-		;timer is stopped!To start, call - 'tim1OnePulseModeStart'
-  ;@presc16,  
+	;===PROCEDURE 'tim1OnePulsePwmCh2Setup'
+	;timer is stopped!To start, call - 'tim1OnePulseModeStart'
+  	;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+				$70 iPWM_MODE2
+				;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
-		;after return: SP+9
+		      ;after return: SP+9
 	;stack frame:
 	;[v8a|A|return|prel|pol|mode|comp|base|presc]
 tim1OnePulsePwmCh2Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _011_v8a $00
 	#define _011_prel $05
@@ -808,7 +808,7 @@ tim1OnePulsePwmCh2Setup
 	#define _011_baseL $0B
 	#define _011_prescH $0C
 	#define _011_prescL $0D
-		;--disable timer
+	;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
@@ -817,7 +817,7 @@ tim1OnePulsePwmCh2Setup
 	LD TIM1_CCR2H, A
 	LD A, (_011_compL,SP)
 	LD TIM1_CCR2L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_011_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_011_prescL,SP)
@@ -858,21 +858,21 @@ tim1OnePulsePwmCh2Setup
 	;--TEST PASSED!
 	;===PROCEDURE 'tim1OnePulsePwmCh3Setup'
 	;timer is stopped!To start, call - 'tim1OnePulseModeStart'
-  ;@presc16,  
+  	;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+			  ;$70 iPWM_MODE2
+			;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 		;after return: SP+9
 	;stack frame:
 	;[v8a|A|return|prel|pol|mode|comp|base|presc]
 tim1OnePulsePwmCh3Setup
-			PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _012_v8a $00
 	#define _012_prel $05
@@ -884,7 +884,7 @@ tim1OnePulsePwmCh3Setup
 	#define _012_baseL $0B
 	#define _012_prescH $0C
 	#define _012_prescL $0D
-		;--disable timer
+	;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
@@ -893,7 +893,7 @@ tim1OnePulsePwmCh3Setup
 	LD TIM1_CCR3H, A
 	LD A, (_012_compL,SP)
 	LD TIM1_CCR3L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_012_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_012_prescL,SP)
@@ -933,21 +933,21 @@ tim1OnePulsePwmCh3Setup
 	;--TEST PASSED!
 	;===PROCEDURE 'tim1OnePulsePwmCh4Setup'
 	;timer is stopped!To start, call - 'tim1OnePulseModeStart'
-  ;@presc16,  
+ 	 ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+			       ;$70 iPWM_MODE2
+				;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 		;after return: SP+9
 	;stack frame:
 	;[v8a|A|return|prel|pol|mode|comp|base|presc]
 tim1OnePulsePwmCh4Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _013_v8a $00
 	#define _013_prel $05
@@ -982,7 +982,7 @@ tim1OnePulsePwmCh4Setup
 	LD A, (_013_mode,SP)
 	LD TIM1_CCMR4, A
 	;--polarity
-; 1)store content of another channels
+	; 1)store content of another channels
 	LD A, TIM1_CCER2
 	AND A, #$0F
 	LD (_013_v8a,SP), A; store
@@ -1008,13 +1008,13 @@ tim1OnePulsePwmCh4Setup
 	
 	
   ;---TEST PASSED!
-			;===PROCEDURE 'tim1ComplementaryPwmCh1Setup'
-  ;@presc16,  
+	;===PROCEDURE 'tim1ComplementaryPwmCh1Setup'
+ 	 ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+				    ;$70 iPWM_MODE2
+				;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  PosCh:$02 active LOW,
                        ;	NegCh: $08 active LOW
 	;@preload8  -> (CR1) $80 preload , $20-center align.mode 1
@@ -1023,7 +1023,7 @@ tim1OnePulsePwmCh4Setup
 	;stack frame:
 	;[v8a|A|return|deadtime|prel|pol|mode|comp|base|presc]
 tim1ComplementaryPwmCh1Setup
-		PUSH A
+	PUSH A
 	;-variables
 	#define _014_v8a $00
 	#define _014_deadtime $05
@@ -1043,7 +1043,7 @@ tim1ComplementaryPwmCh1Setup
 	LD TIM1_CCR1H, A
 	LD A, (_014_compL,SP)
 	LD TIM1_CCR1L, A
-		;--prescaler high byte firstly
+	;--prescaler high byte firstly
 	LD A, (_014_prescH,SP)
 	LD TIM1_PSCRH, A	
 	LD A, (_014_prescL,SP)
@@ -1084,14 +1084,14 @@ tim1ComplementaryPwmCh1Setup
 
 	;---TEST PASSED!
 	  ;===PROCEDURE 'tim1ComplementaryPwmCh2Setup'
-  ;@presc16,  
+ 	 ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+				       ;$70 iPWM_MODE2
+				;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  PosCh:$02 active LOW,
-                  ;	NegCh: $08 active LOW
+        		      ;NegCh: $08 active LOW
 	;@preload8  -> (CR1) $80 preload , $20-center align.mode 1
 	;@deadtime8 -> TIM1_DTR content
 	; SP +10 after ret
@@ -1161,7 +1161,7 @@ tim1ComplementaryPwmCh2Setup
  ;--TEST PASSED!
 	;-=====PROCEDURE===tim1InputCaptureCh1Setup
 	;@prescaler8, $04->/2, $08->/4, ;
-						;$0C->8,$0-NONE
+	;$0C->8,$0-NONE
 	;@filter8, see ref.manual
 	;@evt_condition8, $00-RISE,HIGH, $02-FALL,LOW
   ;------------
@@ -1217,7 +1217,7 @@ tim1InputCaptureCh1Setup
 	;-=====PROCEDURE===tim1InputCaptureCh2Setup
 	;@period16
 	;@prescaler8, $04->/2, $08->/4, ;
-						;$0C->8,$0-NONE
+	;$0C->8,$0-NONE
 	;@filter8, see ref.manual
 	;@evt_condition8, $00-RISE,HIGH, $02-FALL,LOW
   ;------------
@@ -1232,7 +1232,7 @@ tim1InputCaptureCh2Setup
 	#define _017_periodH $08
 	#define _017_periodL $09
 	
-  PUSH A;
+        PUSH A;
 	SUBW SP, #$01
 		;--turn off timer
 	LD A, TIM1_CR1
@@ -1276,7 +1276,7 @@ tim1InputCaptureCh2Setup
 	 ;--TEST PASSED!
 	;-=====PROCEDURE===tim1InputCaptureCh3Setup
 	;@prescaler8, $04->/2, $08->/4, ;
-						;$0C->8,$0-NONE
+	;$0C->8,$0-NONE
 	;@filter8, see ref.manual
 	;@evt_condition8, $00-RISE,HIGH, $02-FALL,LOW
   ;------------
@@ -1290,7 +1290,7 @@ tim1InputCaptureCh3Setup
 	#define _018_prescaler $07
 	#define _018_periodH $08
 	#define _018_periodL $09
-  PUSH A;
+  	PUSH A;
 	SUBW SP, #$01
 		;--turn off timer
 	LD A, TIM1_CR1
@@ -1304,7 +1304,7 @@ tim1InputCaptureCh3Setup
 	;---CCER1--
 	;--1)save other channel state
 	LD A, TIM1_CCER2
-  AND A, #$F0 
+  	AND A, #$F0 
 	LD (_018_v1a,SP), A
 	;--2)load value for tthis channel
 	LD A, (_018_evt_condition,SP)
@@ -1332,7 +1332,7 @@ tim1InputCaptureCh3Setup
 	;-=====PROCEDURE===tim1InputCaptureCh4Setup
 	;@period16
 	;@prescaler8, $04->/2, $08->/4, ;
-						;$0C->8,$0-NONE
+		;$0C->8,$0-NONE
 	;@filter8, see ref.manual
 	;@evt_condition8, $00-RISE,HIGH, $02-FALL,LOW
   ;------------
@@ -1347,7 +1347,7 @@ tim1InputCaptureCh4Setup
 	#define _019_periodH $08
 	#define _019_periodL $09
 	
-  PUSH A;
+ 	 PUSH A;
 	SUBW SP, #$01
 		;--turn off timer
 	LD A, TIM1_CR1
@@ -1361,7 +1361,7 @@ tim1InputCaptureCh4Setup
 	;---CCER1--
 	;--1)save other channel state
 	LD A, TIM1_CCER2
-  AND A, #$0F 
+ 	 AND A, #$0F 
 	LD (_019_v1a,SP), A
 	;--2)load value for tthis channel
 	LD A, (_019_evt_condition,SP)
@@ -1389,12 +1389,12 @@ tim1InputCaptureCh4Setup
 	
 	;---TEST PASSED!
 	;==========P R O C E D U R E===="tim1EncoderSetup"
-  ;@band16,
+  	;@band16,
 	;@mode8, must be: $01 ->mod1, $02->mod2, $03->mod3	
 	;@filter8, $00->filter_off, 
 	             ;please see ref.manual TIM1_CCMR1, 2
-  ;@polarity8,$00-Ch1 and Ch2-rise-edge-pos,
-						  ;$02->fall-edge-neg-CH1 $20->fall-edge-neg-CH2
+ 	 ;@polarity8,$00-Ch1 and Ch2-rise-edge-pos,
+		;$02->fall-edge-neg-CH1 $20->fall-edge-neg-CH2
 	;-------------------
 	;after retutrn SP + 5
 	;Stack frame;
@@ -1445,10 +1445,10 @@ tim1EncoderSetup
 	;@channel8
 	; must be $02->CH1, $04->CH2, $08->CH3, $1->CH4
 	; to enable UPDATE interrupt - OR $01 
-  ;after RETURN: SP +1
+  	;after RETURN: SP +1
 	;stack frame
 	; 0  1 2 3      4
-  ;[A |RETURN| channel]
+  	;[A |RETURN| channel]
 tim1CaptureCompareSetupInterrupts
 	PUSH A
 	LD A , ($04,SP)
@@ -1546,9 +1546,9 @@ tim2BaseModeSetupIT
 	LD TIM2_ARRH, A
 	LD A, (_022_baseL,SP)
 	LD TIM2_ARRL, A
-  ;load mod in TIM1_CR1 (p.188 ref manual)
-  LD A, (_022_mode,SP)
-  LD TIM2_CR1, A
+  	;load mod in TIM1_CR1 (p.188 ref manual)
+  	LD A, (_022_mode,SP)
+ 	 LD TIM2_CR1, A
 	;--start timer and GO! 
 	LD A, TIM2_CR1
 	OR A, #$01
@@ -1562,10 +1562,10 @@ tim2BaseModeSetupIT
 	;@channel8
 	; must be $02->CH1, $04->CH2, $08->CH3, 
 	; to enable UPDATE interrupt - OR $01
-  ;after  RETURN: SP +1
+  	;after  RETURN: SP +1
 	;stack frame
 	; 0  1 2 3      4
-  ;[A |RETURN| channel]
+ 	 ;[A |RETURN| channel]
 tim2CaptureCompareSetupInterrupts
 	PUSH A
 	LD A , ($04,SP)
@@ -1573,7 +1573,7 @@ tim2CaptureCompareSetupInterrupts
 	POP A
 	RET
 
-;----T E S T   P A S S E D!
+	;----T E S T   P A S S E D!
 	;=====P R O C E D U R E==='tim2OutputCompareCh1Setup'
 	;@presc16, !!! must be in TIM2 from list  (only LOW byte):
 				  ;$01->/2, $02->/4, $03->/8 $04->/16 
@@ -1593,7 +1593,7 @@ tim2CaptureCompareSetupInterrupts
 tim2OutputCompareCh1Setup
 		PUSH A
 	;allocate memory
-  SUBW SP, #$01	
+	  SUBW SP, #$01	
 	;-variables
 	#define _023_v8a  $00 
 	#define _023_prel $05
@@ -1666,9 +1666,9 @@ tim2OutputCompareCh1Setup
 	;stack frame:
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim2OutputCompareCh2Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _024_v8a $00
 	#define _024_prel $05
@@ -1741,9 +1741,9 @@ tim2OutputCompareCh2Setup
 	;stack frame:
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim2OutputCompareCh3Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _025_v8a $00
 	#define _025_prel $05
@@ -1808,8 +1808,8 @@ tim2OutputCompareCh3Setup
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR)PWM mode: $60 pwm_mode_1, $70 pwm_mode_2
-							;additional parameters (use OR) $04 -fast_mode
-							; $80 - prelopad enable
+				;additional parameters (use OR) $04 -fast_mode
+				; $80 - prelopad enable
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	;SP +9
@@ -1818,7 +1818,7 @@ tim2OutputCompareCh3Setup
 tim2PwmCh1Setup
 		PUSH A
 	;allocate memory
-  SUBW SP, #$01	
+ 	 SUBW SP, #$01	
 	;-variables
 	#define _026_v8a  $00 
 	#define _026_prel $05
@@ -1890,9 +1890,9 @@ tim2PwmCh1Setup
 	;stack frame:
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim2PwmCh2Setup
-		PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	PUSH A
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _027_v8a $00
 	#define _027_prel $05
@@ -1966,8 +1966,8 @@ tim2PwmCh2Setup
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim2PwmCh3Setup
 			PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _028_v8a $00
 	#define _028_prel $05
@@ -2032,17 +2032,17 @@ tim2PwmCh3Setup
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR)PWM mode: $60 pwm_mode_1, $70 pwm_mode_2
-							;additional parameters (use OR) $04 -fast_mode
-							; $80 - prelopad enable
+					;additional parameters (use OR) $04 -fast_mode
+					; $80 - prelopad enable
 	;@polarity8 -> (CCER)  $00 active HI,$02 active LO
 	;@preload8  ->  $80 preload enable, CR1 content
 	;SP +9
 	;stack frame:
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim2OnePulsePwmCh1Setup
-		PUSH A
+	PUSH A
 	;allocate memory
-  SUBW SP, #$01	
+ 	 SUBW SP, #$01	
 	;-variables
 	#define _029_v8a  $00 
 	#define _029_prel $05
@@ -2116,8 +2116,8 @@ tim2OnePulsePwmCh1Setup
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim2OnePulsePwmCh2Setup
 	PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _030_v8a $00
 	#define _030_prel $05
@@ -2182,8 +2182,8 @@ tim2OnePulsePwmCh2Setup
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR)PWM mode: $60 pwm_mode_1, $70 pwm_mode_2
-							;additional parameters (use OR) $04 -fast_mode
-							; $80 - prelopad enable
+			;additional parameters (use OR) $04 -fast_mode
+			; $80 - prelopad enable
 	;@polarity8 -> (CCER)  $02 active LO,$00 active Hi
 	;@preload8  ->  $80 preload enable, CR1 content
 	;SP +9
@@ -2191,8 +2191,8 @@ tim2OnePulsePwmCh2Setup
 	;[v16a|return|prel|pol|mode|comp|base|presc]
 tim2OnePulsePwmCh3Setup
 				PUSH A
-		;--allocate memory
-		SUBW SP , #$01
+	;--allocate memory
+	SUBW SP , #$01
 	;-variables
 	#define _031_v8a $00
 	#define _031_prel $05
@@ -2264,7 +2264,7 @@ tim2OnePulseModeStart
 	 ;-TEST PASSED!
  ;===PROCEDURE==tim4BaseInit
  ;@prescaler8,   must be in range $00-$07
- ;				    so, divider=2 in power(prescaler)
+ ;	    so, divider=2 in power(prescaler)
  ;@counter8,     counter value
  ;@options8,   CR1 content
  ;---
