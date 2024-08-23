@@ -1,6 +1,6 @@
-;STM8 assembler TIM1, TIM2 library
+;STM8 assembler Timer library
 ;Author: Andrii Androsowych
-;NOTE: defines in bodies od procedures can conflict between each other
+
 ;  _____ ___ __  __ _ 
 ; |_   _|_ _|  \/  / |
 ;   | |  | || |\/| | |
@@ -97,7 +97,7 @@ tim1BaseModeSetupIT
 	RET
 
   ;--TEST PASSED!
-;===PROCEDURE 'tim1OutputCompareCh1Setup'
+		;===PROCEDURE 'tim1OutputCompareCh1Setup'
   ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> capture compare CCR1 content
@@ -410,55 +410,55 @@ tim1PwmCh1Setup
 	;allocate memory
   SUBW SP, #$01	
 	;-variables
-	#define _002_v8a  $00 
-	#define _002_prel $05
-	#define _002_pol $06
-	#define _002_mode $07
-	#define _002_compH $08
-	#define _002_compL $09
-	#define _002_baseH $0A
-	#define _002_baseL $0B
-	#define _002_prescH $0C
-	#define _002_prescL $0D
+	#define _006_v8a  $00 
+	#define _006_prel $05
+	#define _006_pol $06
+	#define _006_mode $07
+	#define _006_compH $08
+	#define _006_compL $09
+	#define _006_baseH $0A
+	#define _006_baseL $0B
+	#define _006_prescH $0C
+	#define _006_prescL $0D
 	;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
 	;--load comparand, Hi firstly
-	LD A, (_002_compH,SP)
+	LD A, (_006_compH,SP)
 	LD TIM1_CCR1H, A
-	LD A, (_002_compL,SP)
+	LD A, (_006_compL,SP)
 	LD TIM1_CCR1L, A
 		;--prescaler high byte firstly
-	LD A, (_002_prescH,SP)
+	LD A, (_006_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_002_prescL,SP)
+	LD A, (_006_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_002_baseH,SP)
+	LD A, (_006_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_002_baseL,SP)
+	LD A, (_006_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR1
-	LD A, (_002_mode,SP)
+	LD A, (_006_mode,SP)
 	LD TIM1_CCMR1, A
 	;--polarity
 	;--1) read and store 
 	; content of another channels
 	LD A, TIM1_CCER1
 	AND A, #$F0
-	LD (_002_v8a,SP), A; store
+	LD (_006_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_002_pol,SP)
+	LD A, (_006_pol,SP)
 	OR A, #$01; turn on channel 1
 	;--3)apply others regs
-	OR A, (_002_v8a,SP)
+	OR A, (_006_v8a,SP)
 	LD TIM1_CCER1, A
 	;--turn on main channels
 	LD A, #$80; MOE bit
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_002_prel,SP)
+	LD A, (_006_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$01;
 	LD TIM1_CR1, A
@@ -474,8 +474,8 @@ tim1PwmCh1Setup
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+	                       ;$70 iPWM_MODE2
+	                       ;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	;SP after RETURN +9
@@ -486,55 +486,55 @@ tim1PwmCh2Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _003_v8a $00
-	#define _003_prel $05
-	#define _003_pol $06
-	#define _003_mode $07
-	#define _003_compH $08
-	#define _003_compL $09
-	#define _003_baseH $0A
-	#define _003_baseL $0B
-	#define _003_prescH $0C
-	#define _003_prescL $0D
+	#define _007_v8a $00
+	#define _007_prel $05
+	#define _007_pol $06
+	#define _007_mode $07
+	#define _007_compH $08
+	#define _007_compL $09
+	#define _007_baseH $0A
+	#define _007_baseL $0B
+	#define _007_prescH $0C
+	#define _007_prescL $0D
 		;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
 	;--load comparand, Hi firstly
-	LD A, (_003_compH,SP)
+	LD A, (_007_compH,SP)
 	LD TIM1_CCR2H, A
-	LD A, (_003_compL,SP)
+	LD A, (_007_compL,SP)
 	LD TIM1_CCR2L, A
 		;--prescaler high byte firstly
-	LD A, (_003_prescH,SP)
+	LD A, (_007_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_003_prescL,SP)
+	LD A, (_007_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_003_baseH,SP)
+	LD A, (_007_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_003_baseL,SP)
+	LD A, (_007_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR2
-	LD A, (_003_mode,SP)
+	LD A, (_007_mode,SP)
 	LD TIM1_CCMR2, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM1_CCER1
 	AND A, #$0F
-	LD (_003_v8a,SP), A; store
+	LD (_007_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_003_pol,SP)
+	LD A, (_007_pol,SP)
 	OR A, #$01; turn on channel 
 	SWAP A;  A << 4
 	;--3) apply another regs
-	OR A, (_003_v8a,SP)
+	OR A, (_007_v8a,SP)
 	LD TIM1_CCER1, A
 	;--turn on main channels
 	LD A, #$80; MOE bit
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_003_prel,SP)
+	LD A, (_007_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$01;
 	LD TIM1_CR1, A
@@ -549,8 +549,8 @@ tim1PwmCh2Setup
 	;@base16, -> base of counter, ARRL
 	;@comp16, ->  pulse width, CCR1 content
 	;@mode8,  -> (CCMR) : $60 PWM_MODE1
-							       ;$70 iPWM_MODE2
-						;additional:  $04 fast, $08 preload en.
+		      ;$70 iPWM_MODE2
+		  ;additional:  $04 fast, $08 preload en.
 	;@polarity8 -> (CCER)  $00 active HI,$02 active low
 	;@preload8  ->  $80 preload enable, CR1 content
 	
@@ -561,54 +561,54 @@ tim1PwmCh3Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _004_v8a $00
-	#define _004_prel $05
-	#define _004_pol $06
-	#define _004_mode $07
-	#define _004_compH $08
-	#define _004_compL $09
-	#define _004_baseH $0A
-	#define _004_baseL $0B
-	#define _004_prescH $0C
-	#define _004_prescL $0D
+	#define _008_v8a $00
+	#define _008_prel $05
+	#define _008_pol $06
+	#define _008_mode $07
+	#define _008_compH $08
+	#define _008_compL $09
+	#define _008_baseH $0A
+	#define _008_baseL $0B
+	#define _008_prescH $0C
+	#define _008_prescL $0D
 		;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
 	;--load comparand, Hi firstly
-	LD A, (_004_compH,SP)
+	LD A, (_008_compH,SP)
 	LD TIM1_CCR3H, A
-	LD A, (_004_compL,SP)
+	LD A, (_008_compL,SP)
 	LD TIM1_CCR3L, A
 		;--prescaler high byte firstly
-	LD A, (_004_prescH,SP)
+	LD A, (_008_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_004_prescL,SP)
+	LD A, (_008_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_004_baseH,SP)
+	LD A, (_008_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_004_baseL,SP)
+	LD A, (_008_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR1
-	LD A, (_004_mode,SP)
+	LD A, (_008_mode,SP)
 	LD TIM1_CCMR3, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM1_CCER2
 	AND A, #$F0
-	LD (_004_v8a,SP), A; store
+	LD (_008_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_004_pol,SP)
+	LD A, (_008_pol,SP)
 	OR A, #$01; turn on channel 
 	;--3)apply another regs
-	OR A, (_004_v8a,SP)
+	OR A, (_008_v8a,SP)
 	LD TIM1_CCER2, A
 	;--turn on main channels
 	LD A, #$80; MOE bit
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_004_prel,SP)
+	LD A, (_008_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$01;
 	LD TIM1_CR1, A
@@ -637,55 +637,55 @@ tim1PwmCh4Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _005_v8a $00
-	#define _005_prel $05
-	#define _005_pol $06
-	#define _005_mode $07
-	#define _005_compH $08
-	#define _005_compL $09
-	#define _005_baseH $0A
-	#define _005_baseL $0B
-	#define _005_prescH $0C
-	#define _005_prescL $0D
+	#define _009_v8a $00
+	#define _009_prel $05
+	#define _009_pol $06
+	#define _009_mode $07
+	#define _009_compH $08
+	#define _009_compL $09
+	#define _009_baseH $0A
+	#define _009_baseL $0B
+	#define _009_prescH $0C
+	#define _009_prescL $0D
 		;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
 	;--load comparand, Hi firstly
-	LD A, (_005_compH,SP)
+	LD A, (_009_compH,SP)
 	LD TIM1_CCR4H, A
-	LD A, (_005_compL,SP)
+	LD A, (_009_compL,SP)
 	LD TIM1_CCR4L, A
 		;--prescaler high byte firstly
-	LD A, (_005_prescH,SP)
+	LD A, (_009_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_005_prescL,SP)
+	LD A, (_009_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_005_baseH,SP)
+	LD A, (_009_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_005_baseL,SP)
+	LD A, (_009_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR
-	LD A, (_005_mode,SP)
+	LD A, (_009_mode,SP)
 	LD TIM1_CCMR4, A
 	;--polarity
 ; 1)store content of another channels
 	LD A, TIM1_CCER2
 	AND A, #$0F
-	LD (_005_v8a,SP), A; store
+	LD (_009_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_005_pol,SP)
+	LD A, (_009_pol,SP)
 	OR A, #$01; turn on channel 
 	SWAP A;  A << 4
 	;--3) apply another regs
-	OR A,  (_005_v8a,SP)
+	OR A,  (_009_v8a,SP)
 	LD TIM1_CCER2, A
 	;--turn on main channels
 	LD A, #$80; MOE bit
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_005_prel,SP)
+	LD A, (_009_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$01;
 	LD TIM1_CR1, A
@@ -722,55 +722,55 @@ tim1OnePulsePwmCh1Setup
 	;allocate memory
   SUBW SP, #$01	
 	;-variables
-	#define _002_v8a  $00 
-	#define _002_prel $05
-	#define _002_pol $06
-	#define _002_mode $07
-	#define _002_compH $08
-	#define _002_compL $09
-	#define _002_baseH $0A
-	#define _002_baseL $0B
-	#define _002_prescH $0C
-	#define _002_prescL $0D
+	#define _010_v8a  $00 
+	#define _010_prel $05
+	#define _010_pol $06
+	#define _010_mode $07
+	#define _010_compH $08
+	#define _010_compL $09
+	#define _010_baseH $0A
+	#define _010_baseL $0B
+	#define _010_prescH $0C
+	#define _010_prescL $0D
 	;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
 	;--load comparand, Hi firstly
-	LD A, (_002_compH,SP)
+	LD A, (_010_compH,SP)
 	LD TIM1_CCR1H, A
-	LD A, (_002_compL,SP)
+	LD A, (_010_compL,SP)
 	LD TIM1_CCR1L, A
 		;--prescaler high byte firstly
-	LD A, (_002_prescH,SP)
+	LD A, (_010_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_002_prescL,SP)
+	LD A, (_010_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_002_baseH,SP)
+	LD A, (_010_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_002_baseL,SP)
+	LD A, (_010_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR1
-	LD A, (_002_mode,SP)
+	LD A, (_010_mode,SP)
 	LD TIM1_CCMR1, A
 	;--polarity
 	;--1) read and store 
 	; content of another channels
 	LD A, TIM1_CCER1
 	AND A, #$F0
-	LD (_002_v8a,SP), A; store
+	LD (_010_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_002_pol,SP)
+	LD A, (_010_pol,SP)
 	OR A, #$01; turn on channel 1
 	;--3)apply others regs
-	OR A, (_002_v8a,SP)
+	OR A, (_010_v8a,SP)
 	LD TIM1_CCER1, A
 	;--turn on main channels
 	LD A, #$80; MOE bit
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_002_prel,SP)
+	LD A, (_010_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$08  ;//one pulse mode ,stopped
 	LD TIM1_CR1, A
@@ -798,55 +798,55 @@ tim1OnePulsePwmCh2Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _003_v8a $00
-	#define _003_prel $05
-	#define _003_pol $06
-	#define _003_mode $07
-	#define _003_compH $08
-	#define _003_compL $09
-	#define _003_baseH $0A
-	#define _003_baseL $0B
-	#define _003_prescH $0C
-	#define _003_prescL $0D
+	#define _011_v8a $00
+	#define _011_prel $05
+	#define _011_pol $06
+	#define _011_mode $07
+	#define _011_compH $08
+	#define _011_compL $09
+	#define _011_baseH $0A
+	#define _011_baseL $0B
+	#define _011_prescH $0C
+	#define _011_prescL $0D
 		;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
 	;--load comparand, Hi firstly
-	LD A, (_003_compH,SP)
+	LD A, (_011_compH,SP)
 	LD TIM1_CCR2H, A
-	LD A, (_003_compL,SP)
+	LD A, (_011_compL,SP)
 	LD TIM1_CCR2L, A
 		;--prescaler high byte firstly
-	LD A, (_003_prescH,SP)
+	LD A, (_011_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_003_prescL,SP)
+	LD A, (_011_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_003_baseH,SP)
+	LD A, (_011_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_003_baseL,SP)
+	LD A, (_011_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR2
-	LD A, (_003_mode,SP)
+	LD A, (_011_mode,SP)
 	LD TIM1_CCMR2, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM1_CCER1
 	AND A, #$0F
-	LD (_003_v8a,SP), A; store
+	LD (_011_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_003_pol,SP)
+	LD A, (_011_pol,SP)
 	OR A, #$01; turn on channel 
 	SWAP A;  A << 4
 	;--3) apply another regs
-	OR A, (_003_v8a,SP)
+	OR A, (_011_v8a,SP)
 	LD TIM1_CCER1, A
 	;--turn on main channels
 	LD A, #$80; MOE bit
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_003_prel,SP)
+	LD A, (_011_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$08  ;//one pulse mode ,stopped
 	LD TIM1_CR1, A
@@ -874,54 +874,54 @@ tim1OnePulsePwmCh3Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _004_v8a $00
-	#define _004_prel $05
-	#define _004_pol $06
-	#define _004_mode $07
-	#define _004_compH $08
-	#define _004_compL $09
-	#define _004_baseH $0A
-	#define _004_baseL $0B
-	#define _004_prescH $0C
-	#define _004_prescL $0D
+	#define _012_v8a $00
+	#define _012_prel $05
+	#define _012_pol $06
+	#define _012_mode $07
+	#define _012_compH $08
+	#define _012_compL $09
+	#define _012_baseH $0A
+	#define _012_baseL $0B
+	#define _012_prescH $0C
+	#define _012_prescL $0D
 		;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
 	;--load comparand, Hi firstly
-	LD A, (_004_compH,SP)
+	LD A, (_012_compH,SP)
 	LD TIM1_CCR3H, A
-	LD A, (_004_compL,SP)
+	LD A, (_012_compL,SP)
 	LD TIM1_CCR3L, A
 		;--prescaler high byte firstly
-	LD A, (_004_prescH,SP)
+	LD A, (_012_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_004_prescL,SP)
+	LD A, (_012_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_004_baseH,SP)
+	LD A, (_012_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_004_baseL,SP)
+	LD A, (_012_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR1
-	LD A, (_004_mode,SP)
+	LD A, (_012_mode,SP)
 	LD TIM1_CCMR3, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM1_CCER2
 	AND A, #$F0
-	LD (_004_v8a,SP), A; store
+	LD (_012_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_004_pol,SP)
+	LD A, (_012_pol,SP)
 	OR A, #$01; turn on channel 
 	;--3)apply another regs
-	OR A, (_004_v8a,SP)
+	OR A, (_012_v8a,SP)
 	LD TIM1_CCER2, A
 	;--turn on main channels
 	LD A, #$80; MOE bit
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_004_prel,SP)
+	LD A, (_012_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$08  ;//one pulse mode ,stopped
 	LD TIM1_CR1, A
@@ -949,55 +949,55 @@ tim1OnePulsePwmCh4Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _005_v8a $00
-	#define _005_prel $05
-	#define _005_pol $06
-	#define _005_mode $07
-	#define _005_compH $08
-	#define _005_compL $09
-	#define _005_baseH $0A
-	#define _005_baseL $0B
-	#define _005_prescH $0C
-	#define _005_prescL $0D
+	#define _013_v8a $00
+	#define _013_prel $05
+	#define _013_pol $06
+	#define _013_mode $07
+	#define _013_compH $08
+	#define _013_compL $09
+	#define _013_baseH $0A
+	#define _013_baseL $0B
+	#define _013_prescH $0C
+	#define _013_prescL $0D
 		;--disable timer
 	LD A, TIM1_CR1
 	AND A, #$FE;
 	LD TIM1_CR1,A
 	;--load comparand, Hi firstly
-	LD A, (_005_compH,SP)
+	LD A, (_013_compH,SP)
 	LD TIM1_CCR4H, A
-	LD A, (_005_compL,SP)
+	LD A, (_013_compL,SP)
 	LD TIM1_CCR4L, A
 		;--prescaler high byte firstly
-	LD A, (_005_prescH,SP)
+	LD A, (_013_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_005_prescL,SP)
+	LD A, (_013_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_005_baseH,SP)
+	LD A, (_013_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_005_baseL,SP)
+	LD A, (_013_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR
-	LD A, (_005_mode,SP)
+	LD A, (_013_mode,SP)
 	LD TIM1_CCMR4, A
 	;--polarity
 ; 1)store content of another channels
 	LD A, TIM1_CCER2
 	AND A, #$0F
-	LD (_005_v8a,SP), A; store
+	LD (_013_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_005_pol,SP)
+	LD A, (_013_pol,SP)
 	OR A, #$01; turn on channel 
 	SWAP A;  A << 4
 	;--3) apply another regs
-	OR A,  (_005_v8a,SP)
+	OR A,  (_013_v8a,SP)
 	LD TIM1_CCER2, A
 	;--turn on main channels
 	LD A, #$80; MOE bit
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_005_prel,SP)
+	LD A, (_013_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$08  ;//one pulse mode ,stopped
 	LD TIM1_CR1, A
@@ -1025,55 +1025,55 @@ tim1OnePulsePwmCh4Setup
 tim1ComplementaryPwmCh1Setup
 		PUSH A
 	;-variables
-	#define _002_v8a $00
-	#define _002_deadtime $05
-	#define _002_prel $06
-	#define _002_pol $07
-	#define _002_mode $08
-	#define _002_compH $09
-	#define _002_compL $0a
-	#define _002_baseH $0b
-	#define _002_baseL $0c
-	#define _002_prescH $0d
-	#define _002_prescL $0e
+	#define _014_v8a $00
+	#define _014_deadtime $05
+	#define _014_prel $06
+	#define _014_pol $07
+	#define _014_mode $08
+	#define _014_compH $09
+	#define _014_compL $0a
+	#define _014_baseH $0b
+	#define _014_baseL $0c
+	#define _014_prescH $0d
+	#define _014_prescL $0e
 	;;allocate memory
 	SUBW SP, #$01
 	;--load comparand, Hi firstly
-	LD A, (_002_compH,SP)
+	LD A, (_014_compH,SP)
 	LD TIM1_CCR1H, A
-	LD A, (_002_compL,SP)
+	LD A, (_014_compL,SP)
 	LD TIM1_CCR1L, A
 		;--prescaler high byte firstly
-	LD A, (_002_prescH,SP)
+	LD A, (_014_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_002_prescL,SP)
+	LD A, (_014_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_002_baseH,SP)
+	LD A, (_014_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_002_baseL,SP)
+	LD A, (_014_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR1
-	LD A, (_002_mode,SP)
+	LD A, (_014_mode,SP)
 	LD TIM1_CCMR1, A
 	;--polarity
 	;1)store an another channel CCER1
 	LD A, TIM1_CCER1
 	AND A, #$F0
-	LD (_002_v8a,SP), A
+	LD (_014_v8a,SP), A
 	;--2)apply saved another channel
-	LD A, (_002_pol,SP)
+	LD A, (_014_pol,SP)
 	OR A, #$05; Pos and Neg channels ON
-	OR A, (_002_v8a,SP)
+	OR A, (_014_v8a,SP)
 	LD TIM1_CCER1, A
 	;--deadtime
-	LD A, (_002_deadtime,SP)
+	LD A, (_014_deadtime,SP)
 	LD TIM1_DTR, A
 	;--turn on channels
 	LD A, #$80
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_002_prel,SP)
+	LD A, (_014_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$01;
 	LD TIM1_CR1, A
@@ -1100,56 +1100,56 @@ tim1ComplementaryPwmCh1Setup
 tim1ComplementaryPwmCh2Setup
 		PUSH A
 	;-variables
-	#define _003_v8a $00
-	#define _003_deadtime $05
-	#define _003_prel $06
-	#define _003_pol $07
-	#define _003_mode $08
-	#define _003_compH $09
-	#define _003_compL $0a
-	#define _003_baseH $0b
-	#define _003_baseL $0c
-	#define _003_prescH $0d
-	#define _003_prescL $0e
+	#define _015_v8a $00
+	#define _015_deadtime $05
+	#define _015_prel $06
+	#define _015_pol $07
+	#define _015_mode $08
+	#define _015_compH $09
+	#define _015_compL $0a
+	#define _015_baseH $0b
+	#define _015_baseL $0c
+	#define _015_prescH $0d
+	#define _015_prescL $0e
 	;;allocate memory
 	SUBW SP, #$01
 	;--load comparand, Hi firstly
-	LD A, (_003_compH,SP)
+	LD A, (_015_compH,SP)
 	LD TIM1_CCR2H, A
-	LD A, (_003_compL,SP)
+	LD A, (_015_compL,SP)
 	LD TIM1_CCR2L, A
 		;--prescaler high byte firstly
-	LD A, (_003_prescH,SP)
+	LD A, (_015_prescH,SP)
 	LD TIM1_PSCRH, A	
-	LD A, (_003_prescL,SP)
+	LD A, (_015_prescL,SP)
 	LD TIM1_PSCRL, A
 	;--load base, high byte first
-	LD A, (_003_baseH,SP)
+	LD A, (_015_baseH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_003_baseL,SP)
+	LD A, (_015_baseL,SP)
 	LD TIM1_ARRL, A
 	;--load CCMR1
-	LD A, (_003_mode,SP)
+	LD A, (_015_mode,SP)
 	LD TIM1_CCMR2, A
 	;--polarity
 	;1)store an another channel CCER1
 	LD A, TIM1_CCER1
 	AND A, #$0F
-	LD (_003_v8a,SP), A
+	LD (_015_v8a,SP), A
 	;--2)apply saved another channel
-	LD A, (_003_pol,SP)
+	LD A, (_015_pol,SP)
 	OR A, #$05; Ch and ChN are turns ON
 	SWAP A; A << 4 , because channel 2
-	OR A, (_003_v8a,SP)
+	OR A, (_015_v8a,SP)
 	LD TIM1_CCER1, A
 	;--deadtime
-	LD A, (_003_deadtime,SP)
+	LD A, (_015_deadtime,SP)
 	LD TIM1_DTR, A
 	;--turn on channels
 	LD A, #$80
 	LD TIM1_BKR, A
 	;--CR1
-	LD A, (_003_prel,SP)
+	LD A, (_015_prel,SP)
 	LD TIM1_CR1, A
 	OR A, #$01;
 	LD TIM1_CR1, A
@@ -1169,12 +1169,12 @@ tim1ComplementaryPwmCh2Setup
 	;stack frame:
  ;[v8a|A|RET|evt_condition|filter|prescaler|period]
 tim1InputCaptureCh1Setup
-  #define _007_v1a $00
-	#define _007_evt_condition $05
-	#define _007_filter $06
-	#define _007_prescaler $07
-	#define _007_periodH $08
-	#define _007_periodL $09
+  #define _016_v1a $00
+	#define _016_evt_condition $05
+	#define _016_filter $06
+	#define _016_prescaler $07
+	#define _016_periodH $08
+	#define _016_periodL $09
   PUSH A;
 	SUBW SP, #$01
 		;--turn off timer
@@ -1182,28 +1182,28 @@ tim1InputCaptureCh1Setup
 	AND A, #$FE
 	LD TIM1_CR1, A
 	;--CCMR1-
-	LD A, (_007_filter,SP)
-	OR A, (_007_prescaler,SP)
+	LD A, (_016_filter,SP)
+	OR A, (_016_prescaler,SP)
 	OR A, #$01
 	LD TIM1_CCMR1, A
 	;---CCER1--
 	;--1)save other channel state
 	LD A, TIM1_CCER1
   AND A, #$F0 
-	LD (_007_v1a,SP), A
+	LD (_016_v1a,SP), A
 	;--2)load value for tthis channel
-	LD A, (_007_evt_condition,SP)
+	LD A, (_016_evt_condition,SP)
 	;--3)aplly other channel to current 
-	OR A, (_007_v1a,SP)
+	OR A, (_016_v1a,SP)
 	LD TIM1_CCER1, A
 	;--turn on CH1
 	LD A, TIM1_CCER1
 	OR A, #$01
 	LD TIM1_CCER1, A
 	;---period
-	LD A, (_007_periodH,SP)
+	LD A, (_016_periodH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_007_periodL,SP)
+	LD A, (_016_periodL,SP)
 	LD TIM1_ARRL, A
 	;--turn on timer
 	LD A, TIM1_CR1
@@ -1225,12 +1225,12 @@ tim1InputCaptureCh1Setup
 	;stack frame:
  ;[v8a|A|RET|evt_condition|filter|prescaler|period]
 tim1InputCaptureCh2Setup
-  #define _007_v1a $00
-	#define _007_evt_condition $05
-	#define _007_filter $06
-	#define _007_prescaler $07
-	#define _007_periodH $08
-	#define _007_periodL $09
+  #define _017_v1a $00
+	#define _017_evt_condition $05
+	#define _017_filter $06
+	#define _017_prescaler $07
+	#define _017_periodH $08
+	#define _017_periodL $09
 	
   PUSH A;
 	SUBW SP, #$01
@@ -1239,29 +1239,29 @@ tim1InputCaptureCh2Setup
 	AND A, #$FE
 	LD TIM1_CR1, A
 	;--CCMR1-
-	LD A, (_007_filter,SP)
-	OR A, (_007_prescaler,SP)
+	LD A, (_017_filter,SP)
+	OR A, (_017_prescaler,SP)
 	OR A, #$01
 	LD TIM1_CCMR2, A
 	;---CCER1--
 	;--1)save other channel state
 	LD A, TIM1_CCER1
   AND A, #$0F 
-	LD (_007_v1a,SP), A
+	LD (_017_v1a,SP), A
 	;--2)load value for tthis channel
-	LD A, (_007_evt_condition,SP)
+	LD A, (_017_evt_condition,SP)
 	SWAP A ;<<4 because CH2
 	;--3)aplly other channel to current 
-	OR A, (_007_v1a,SP)
+	OR A, (_017_v1a,SP)
 	LD TIM1_CCER1, A
 	;--turn on CH2
 	LD A, TIM1_CCER1
 	OR A, #$10
 	LD TIM1_CCER1, A
 	;---period
-	LD A, (_007_periodH,SP)
+	LD A, (_017_periodH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_007_periodL,SP)
+	LD A, (_017_periodL,SP)
 	LD TIM1_ARRL, A
 	;--turn on timer
 	LD A, TIM1_CR1
@@ -1284,12 +1284,12 @@ tim1InputCaptureCh2Setup
 	;stack frame:
  ;[v8a|A|RET|evt_condition|filter|prescaler|period]
 tim1InputCaptureCh3Setup
-  #define _007_v1a $00
-	#define _007_evt_condition $05
-	#define _007_filter $06
-	#define _007_prescaler $07
-	#define _007_periodH $08
-	#define _007_periodL $09
+  #define _018_v1a $00
+	#define _018_evt_condition $05
+	#define _018_filter $06
+	#define _018_prescaler $07
+	#define _018_periodH $08
+	#define _018_periodL $09
   PUSH A;
 	SUBW SP, #$01
 		;--turn off timer
@@ -1297,28 +1297,28 @@ tim1InputCaptureCh3Setup
 	AND A, #$FE
 	LD TIM1_CR1, A
 	;--CCMR3-
-	LD A, (_007_filter,SP)
-	OR A, (_007_prescaler,SP)
+	LD A, (_018_filter,SP)
+	OR A, (_018_prescaler,SP)
 	OR A, #$01
 	LD TIM1_CCMR3, A
 	;---CCER1--
 	;--1)save other channel state
 	LD A, TIM1_CCER2
   AND A, #$F0 
-	LD (_007_v1a,SP), A
+	LD (_018_v1a,SP), A
 	;--2)load value for tthis channel
-	LD A, (_007_evt_condition,SP)
+	LD A, (_018_evt_condition,SP)
 	;--3)aplly other channel to current 
-	OR A, (_007_v1a,SP)
+	OR A, (_018_v1a,SP)
 	LD TIM1_CCER2, A
 	;--turn on CH1
 	LD A, TIM1_CCER2
 	OR A, #$01
 	LD TIM1_CCER2, A
 	;---period
-	LD A, (_007_periodH,SP)
+	LD A, (_018_periodH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_007_periodL,SP)
+	LD A, (_018_periodL,SP)
 	LD TIM1_ARRL, A
 	;--turn on timer
 	LD A, TIM1_CR1
@@ -1340,12 +1340,12 @@ tim1InputCaptureCh3Setup
 	;stack frame:
  ;[v8a|A|RET|evt_condition|filter|prescaler|period]
 tim1InputCaptureCh4Setup
-  #define _007_v1a $00
-	#define _007_evt_condition $05
-	#define _007_filter $06
-	#define _007_prescaler $07
-	#define _007_periodH $08
-	#define _007_periodL $09
+  #define _019_v1a $00
+	#define _019_evt_condition $05
+	#define _019_filter $06
+	#define _019_prescaler $07
+	#define _019_periodH $08
+	#define _019_periodL $09
 	
   PUSH A;
 	SUBW SP, #$01
@@ -1354,29 +1354,29 @@ tim1InputCaptureCh4Setup
 	AND A, #$FE
 	LD TIM1_CR1, A
 	;--CCMR1-
-	LD A, (_007_filter,SP)
-	OR A, (_007_prescaler,SP)
+	LD A, (_019_filter,SP)
+	OR A, (_019_prescaler,SP)
 	OR A, #$01
 	LD TIM1_CCMR4, A
 	;---CCER1--
 	;--1)save other channel state
 	LD A, TIM1_CCER2
   AND A, #$0F 
-	LD (_007_v1a,SP), A
+	LD (_019_v1a,SP), A
 	;--2)load value for tthis channel
-	LD A, (_007_evt_condition,SP)
+	LD A, (_019_evt_condition,SP)
 	SWAP A ;<<4 because CH2
 	;--3)aplly other channel to current 
-	OR A, (_007_v1a,SP)
+	OR A, (_019_v1a,SP)
 	LD TIM1_CCER2, A
 	;--turn on CH2
 	LD A, TIM1_CCER2
 	OR A, #$10
 	LD TIM1_CCER2, A
 	;---period
-	LD A, (_007_periodH,SP)
+	LD A, (_019_periodH,SP)
 	LD TIM1_ARRH, A
-	LD A, (_007_periodL,SP)
+	LD A, (_019_periodL,SP)
 	LD TIM1_ARRL, A
 	;--turn on timer
 	LD A, TIM1_CR1
@@ -1400,35 +1400,35 @@ tim1InputCaptureCh4Setup
 	;Stack frame;
 	;[v8a | A | RET  | polarity |filter  |mode | band]
 tim1EncoderSetup
-	#define _005_v8a $00
-	#define _005_mode $07
-	#define _005_filter $06
-	#define _005_polarity $05
-	#define _005_bandH $08
-	#define _005_bandL $09
+	#define _020_v8a $00
+	#define _020_mode $07
+	#define _020_filter $06
+	#define _020_polarity $05
+	#define _020_bandH $08
+	#define _020_bandL $09
 	;save A
 	PUSH A
 	;allocate memory
 	SUBW SP, #$01
 	;--SMCR
-	LD A, (_005_mode,SP)
+	LD A, (_020_mode,SP)
 	LD TIM1_SMCR, A
 	;--TIM1_CCMR1
-	LD A,(_005_filter,SP)
+	LD A,(_020_filter,SP)
 	OR A, #$01; 
 	LD TIM1_CCMR1, A
 	;--TIM1_CCMR2
-	LD A,(_005_filter,SP)
+	LD A,(_020_filter,SP)
 	OR A, #$01; 
 	LD TIM1_CCMR2, A
 	;--TIM_CCER1
-	LD A, (_005_polarity,SP)
+	LD A, (_020_polarity,SP)
 	OR A, #$11; 
   LD TIM1_CCER1, A
   ;--load band 
-  LD A, (_005_bandH,SP)
+  LD A, (_020_bandH,SP)
   LD TIM1_ARRH, A
-  LD A, (_005_bandL,SP)
+  LD A, (_020_bandL,SP)
   LD TIM1_ARRL, A	
 	;--turn on 
 	LD A, #$01
@@ -1483,21 +1483,21 @@ tim1CaptureCompareSetupInterrupts
 tim2BaseModeSetup
 	;--store registers
 	PUSH A
-	#define _000_presH $07 ;prescaler
-	#define _000_presL $08
-	#define _000_baseH $05 ;base ,counter
-	#define _000_baseL $06
-	#define _000_mode $04  ; parameters
+	#define _021_presH $07 ;prescaler
+	#define _021_presL $08
+	#define _021_baseH $05 ;base ,counter
+	#define _021_baseL $06
+	#define _021_mode $04  ; parameters
 	;load prescaler:
-	LD A,(_000_presL,SP)
+	LD A,(_021_presL,SP)
 	LD TIM2_PSCR, A
 	;load base, HI first:
-	LD A, (_000_baseH,SP)
+	LD A, (_021_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_000_baseL,SP)
+	LD A, (_021_baseL,SP)
 	LD TIM2_ARRL, A
   ;load mod in TIM1_CR1 (p.188 ref manual)
-  LD A, (_000_mode,SP)
+  LD A, (_021_mode,SP)
   LD TIM2_CR1, A
 	;--start timer and GO! 
 	LD A, TIM2_CR1
@@ -1530,24 +1530,24 @@ tim2BaseModeSetup
 tim2BaseModeSetupIT
 	;--store registers
 	PUSH A
-	#define _000_presH $07 ;prescaler
-	#define _000_presL $08
-	#define _000_baseH $05 ;base ,counter
-	#define _000_baseL $06
-	#define _000_mode $04  ; parameters
+	#define _022_presH $07 ;prescaler
+	#define _022_presL $08
+	#define _022_baseH $05 ;base ,counter
+	#define _022_baseL $06
+	#define _022_mode $04  ; parameters
 	;set interrupt update event enable
 	LD A, #$01
 	LD TIM2_IER, A
 	;load prescaler:
-	LD A,(_000_presL,SP)
+	LD A,(_022_presL,SP)
 	LD TIM2_PSCR, A
 	;load base, HI first:
-	LD A, (_000_baseH,SP)
+	LD A, (_022_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_000_baseL,SP)
+	LD A, (_022_baseL,SP)
 	LD TIM2_ARRL, A
   ;load mod in TIM1_CR1 (p.188 ref manual)
-  LD A, (_000_mode,SP)
+  LD A, (_022_mode,SP)
   LD TIM2_CR1, A
 	;--start timer and GO! 
 	LD A, TIM2_CR1
@@ -1595,51 +1595,51 @@ tim2OutputCompareCh1Setup
 	;allocate memory
   SUBW SP, #$01	
 	;-variables
-	#define _002_v8a  $00 
-	#define _002_prel $05
-	#define _002_pol $06
-	#define _002_mode $07
-	#define _002_compH $08
-	#define _002_compL $09
-	#define _002_baseH $0A
-	#define _002_baseL $0B
-	#define _002_prescH $0C
-	#define _002_prescL $0D
+	#define _023_v8a  $00 
+	#define _023_prel $05
+	#define _023_pol $06
+	#define _023_mode $07
+	#define _023_compH $08
+	#define _023_compL $09
+	#define _023_baseH $0A
+	#define _023_baseL $0B
+	#define _023_prescH $0C
+	#define _023_prescL $0D
 	;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
 	LD TIM2_CR1,A
 	;--prescaler only low	
-	LD A, (_002_prescL,SP)
+	LD A, (_023_prescL,SP)
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_002_compH,SP)
+	LD A, (_023_compH,SP)
 	LD TIM2_CCR1H, A
-	LD A, (_002_compL,SP)
+	LD A, (_023_compL,SP)
 	LD TIM2_CCR1L, A
 	;--load base, high byte first
-	LD A, (_002_baseH,SP)
+	LD A, (_023_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_002_baseL,SP)
+	LD A, (_023_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR1
-	LD A, (_002_mode,SP)
+	LD A, (_023_mode,SP)
 	LD TIM2_CCMR1, A
 	;--polarity
 	;--1) read and store 
 	; content of another channels
 	LD A, TIM2_CCER1
 	AND A, #$F0
-	LD (_002_v8a,SP), A; store
+	LD (_023_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_002_pol,SP)
+	LD A, (_023_pol,SP)
 	OR A, #$01; turn on channel 1
 	;--3)apply others regs
-	OR A, (_002_v8a,SP)
+	OR A, (_023_v8a,SP)
 	LD TIM2_CCER1, A
 	;--CR1
-	LD A, (_002_prel,SP)
+	LD A, (_023_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$01;
 	LD TIM2_CR1, A
@@ -1670,16 +1670,16 @@ tim2OutputCompareCh2Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _003_v8a $00
-	#define _003_prel $05
-	#define _003_pol $06
-	#define _003_mode $07
-	#define _003_compH $08
-	#define _003_compL $09
-	#define _003_baseH $0A
-	#define _003_baseL $0B
-	#define _003_prescH $0C
-	#define _003_prescL $0D
+	#define _024_v8a $00
+	#define _024_prel $05
+	#define _024_pol $06
+	#define _024_mode $07
+	#define _024_compH $08
+	#define _024_compL $09
+	#define _024_baseH $0A
+	#define _024_baseL $0B
+	#define _024_prescH $0C
+	#define _024_prescL $0D
 		;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
@@ -1689,32 +1689,32 @@ tim2OutputCompareCh2Setup
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_003_compH,SP)
+	LD A, (_024_compH,SP)
 	LD TIM2_CCR2H, A
-	LD A, (_003_compL,SP)
+	LD A, (_024_compL,SP)
 	LD TIM2_CCR2L, A
 	;--load base, high byte first
-	LD A, (_003_baseH,SP)
+	LD A, (_024_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_003_baseL,SP)
+	LD A, (_024_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR2
-	LD A, (_003_mode,SP)
+	LD A, (_024_mode,SP)
 	LD TIM2_CCMR2, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM2_CCER1
 	AND A, #$0F
-	LD (_003_v8a,SP), A; store
+	LD (_024_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_003_pol,SP)
+	LD A, (_024_pol,SP)
 	OR A, #$01; turn on channel 
 	SWAP A;  A << 4
 	;--3) apply another regs
-	OR A, (_003_v8a,SP)
+	OR A, (_024_v8a,SP)
 	LD TIM2_CCER1, A
 	;--CR1
-	LD A, (_003_prel,SP)
+	LD A, (_024_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$01;
 	LD TIM2_CR1, A
@@ -1745,16 +1745,16 @@ tim2OutputCompareCh3Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _004_v8a $00
-	#define _004_prel $05
-	#define _004_pol $06
-	#define _004_mode $07
-	#define _004_compH $08
-	#define _004_compL $09
-	#define _004_baseH $0A
-	#define _004_baseL $0B
-	#define _004_prescH $0C
-	#define _004_prescL $0D
+	#define _025_v8a $00
+	#define _025_prel $05
+	#define _025_pol $06
+	#define _025_mode $07
+	#define _025_compH $08
+	#define _025_compL $09
+	#define _025_baseH $0A
+	#define _025_baseL $0B
+	#define _025_prescH $0C
+	#define _025_prescL $0D
 		;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
@@ -1764,32 +1764,32 @@ tim2OutputCompareCh3Setup
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_004_compH,SP)
+	LD A, (_025_compH,SP)
 	LD TIM2_CCR3H, A
-	LD A, (_004_compL,SP)
+	LD A, (_025_compL,SP)
 	LD TIM2_CCR3L, A
  
 	;--load base, high byte first
-	LD A, (_004_baseH,SP)
+	LD A, (_025_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_004_baseL,SP)
+	LD A, (_025_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR1
-	LD A, (_004_mode,SP)
+	LD A, (_025_mode,SP)
 	LD TIM2_CCMR3, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM2_CCER2
 	AND A, #$F0
-	LD (_004_v8a,SP), A; store
+	LD (_025_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_004_pol,SP)
+	LD A, (_025_pol,SP)
 	OR A, #$01; turn on channel 
 	;--3)apply another regs
-	OR A, (_004_v8a,SP)
+	OR A, (_025_v8a,SP)
 	LD TIM2_CCER2, A
 	;--CR1
-	LD A, (_004_prel,SP)
+	LD A, (_025_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$01;
 	LD TIM2_CR1, A
@@ -1820,51 +1820,51 @@ tim2PwmCh1Setup
 	;allocate memory
   SUBW SP, #$01	
 	;-variables
-	#define _002_v8a  $00 
-	#define _002_prel $05
-	#define _002_pol $06
-	#define _002_mode $07
-	#define _002_compH $08
-	#define _002_compL $09
-	#define _002_baseH $0A
-	#define _002_baseL $0B
-	#define _002_prescH $0C
-	#define _002_prescL $0D
+	#define _026_v8a  $00 
+	#define _026_prel $05
+	#define _026_pol $06
+	#define _026_mode $07
+	#define _026_compH $08
+	#define _026_compL $09
+	#define _026_baseH $0A
+	#define _026_baseL $0B
+	#define _026_prescH $0C
+	#define _026_prescL $0D
 	;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
 	LD TIM2_CR1,A
 	;--prescaler only low	
-	LD A, (_002_prescL,SP)
+	LD A, (_026_prescL,SP)
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_002_compH,SP)
+	LD A, (_026_compH,SP)
 	LD TIM2_CCR1H, A
-	LD A, (_002_compL,SP)
+	LD A, (_026_compL,SP)
 	LD TIM2_CCR1L, A
 	;--load base, high byte first
-	LD A, (_002_baseH,SP)
+	LD A, (_026_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_002_baseL,SP)
+	LD A, (_026_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR1
-	LD A, (_002_mode,SP)
+	LD A, (_026_mode,SP)
 	LD TIM2_CCMR1, A
 	;--polarity
 	;--1) read and store 
 	; content of another channels
 	LD A, TIM2_CCER1
 	AND A, #$F0
-	LD (_002_v8a,SP), A; store
+	LD (_026_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_002_pol,SP)
+	LD A, (_026_pol,SP)
 	OR A, #$01; turn on channel 1
 	;--3)apply others regs
-	OR A, (_002_v8a,SP)
+	OR A, (_026_v8a,SP)
 	LD TIM2_CCER1, A
 	;--CR1
-	LD A, (_002_prel,SP)
+	LD A, (_026_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$01;
 	LD TIM2_CR1, A
@@ -1894,16 +1894,16 @@ tim2PwmCh2Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _003_v8a $00
-	#define _003_prel $05
-	#define _003_pol $06
-	#define _003_mode $07
-	#define _003_compH $08
-	#define _003_compL $09
-	#define _003_baseH $0A
-	#define _003_baseL $0B
-	#define _003_prescH $0C
-	#define _003_prescL $0D
+	#define _027_v8a $00
+	#define _027_prel $05
+	#define _027_pol $06
+	#define _027_mode $07
+	#define _027_compH $08
+	#define _027_compL $09
+	#define _027_baseH $0A
+	#define _027_baseL $0B
+	#define _027_prescH $0C
+	#define _027_prescL $0D
 		;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
@@ -1913,32 +1913,32 @@ tim2PwmCh2Setup
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_003_compH,SP)
+	LD A, (_027_compH,SP)
 	LD TIM2_CCR2H, A
-	LD A, (_003_compL,SP)
+	LD A, (_027_compL,SP)
 	LD TIM2_CCR2L, A
 	;--load base, high byte first
-	LD A, (_003_baseH,SP)
+	LD A, (_027_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_003_baseL,SP)
+	LD A, (_027_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR2
-	LD A, (_003_mode,SP)
+	LD A, (_027_mode,SP)
 	LD TIM2_CCMR2, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM2_CCER1
 	AND A, #$0F
-	LD (_003_v8a,SP), A; store
+	LD (_027_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_003_pol,SP)
+	LD A, (_027_pol,SP)
 	OR A, #$01; turn on channel 
 	SWAP A;  A << 4
 	;--3) apply another regs
-	OR A, (_003_v8a,SP)
+	OR A, (_027_v8a,SP)
 	LD TIM2_CCER1, A
 	;--CR1
-	LD A, (_003_prel,SP)
+	LD A, (_027_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$01;
 	LD TIM2_CR1, A
@@ -1969,16 +1969,16 @@ tim2PwmCh3Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _004_v8a $00
-	#define _004_prel $05
-	#define _004_pol $06
-	#define _004_mode $07
-	#define _004_compH $08
-	#define _004_compL $09
-	#define _004_baseH $0A
-	#define _004_baseL $0B
-	#define _004_prescH $0C
-	#define _004_prescL $0D
+	#define _028_v8a $00
+	#define _028_prel $05
+	#define _028_pol $06
+	#define _028_mode $07
+	#define _028_compH $08
+	#define _028_compL $09
+	#define _028_baseH $0A
+	#define _028_baseL $0B
+	#define _028_prescH $0C
+	#define _028_prescL $0D
 		;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
@@ -1988,32 +1988,32 @@ tim2PwmCh3Setup
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_004_compH,SP)
+	LD A, (_028_compH,SP)
 	LD TIM2_CCR3H, A
-	LD A, (_004_compL,SP)
+	LD A, (_028_compL,SP)
 	LD TIM2_CCR3L, A
  
 	;--load base, high byte first
-	LD A, (_004_baseH,SP)
+	LD A, (_028_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_004_baseL,SP)
+	LD A, (_028_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR1
-	LD A, (_004_mode,SP)
+	LD A, (_028_mode,SP)
 	LD TIM2_CCMR3, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM2_CCER2
 	AND A, #$F0
-	LD (_004_v8a,SP), A; store
+	LD (_028_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_004_pol,SP)
+	LD A, (_028_pol,SP)
 	OR A, #$01; turn on channel 
 	;--3)apply another regs
-	OR A, (_004_v8a,SP)
+	OR A, (_028_v8a,SP)
 	LD TIM2_CCER2, A
 	;--CR1
-	LD A, (_004_prel,SP)
+	LD A, (_028_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$01;
 	LD TIM2_CR1, A
@@ -2044,51 +2044,51 @@ tim2OnePulsePwmCh1Setup
 	;allocate memory
   SUBW SP, #$01	
 	;-variables
-	#define _002_v8a  $00 
-	#define _002_prel $05
-	#define _002_pol $06
-	#define _002_mode $07
-	#define _002_compH $08
-	#define _002_compL $09
-	#define _002_baseH $0A
-	#define _002_baseL $0B
-	#define _002_prescH $0C
-	#define _002_prescL $0D
+	#define _029_v8a  $00 
+	#define _029_prel $05
+	#define _029_pol $06
+	#define _029_mode $07
+	#define _029_compH $08
+	#define _029_compL $09
+	#define _029_baseH $0A
+	#define _029_baseL $0B
+	#define _029_prescH $0C
+	#define _029_prescL $0D
 	;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
 	LD TIM2_CR1,A
 	;--prescaler only low	
-	LD A, (_002_prescL,SP)
+	LD A, (_029_prescL,SP)
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_002_compH,SP)
+	LD A, (_029_compH,SP)
 	LD TIM2_CCR1H, A
-	LD A, (_002_compL,SP)
+	LD A, (_029_compL,SP)
 	LD TIM2_CCR1L, A
 	;--load base, high byte first
-	LD A, (_002_baseH,SP)
+	LD A, (_029_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_002_baseL,SP)
+	LD A, (_029_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR1
-	LD A, (_002_mode,SP)
+	LD A, (_029_mode,SP)
 	LD TIM2_CCMR1, A
 	;--polarity
 	;--1) read and store 
 	; content of another channels
 	LD A, TIM2_CCER1
 	AND A, #$F0
-	LD (_002_v8a,SP), A; store
+	LD (_029_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_002_pol,SP)
+	LD A, (_029_pol,SP)
 	OR A, #$01; turn on channel 1
 	;--3)apply others regs
-	OR A, (_002_v8a,SP)
+	OR A, (_029_v8a,SP)
 	LD TIM2_CCER1, A
 	;--CR1
-	LD A, (_002_prel,SP)
+	LD A, (_029_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$08;//ONE PULSE MODE, stopped
 	LD TIM2_CR1, A
@@ -2119,16 +2119,16 @@ tim2OnePulsePwmCh2Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _003_v8a $00
-	#define _003_prel $05
-	#define _003_pol $06
-	#define _003_mode $07
-	#define _003_compH $08
-	#define _003_compL $09
-	#define _003_baseH $0A
-	#define _003_baseL $0B
-	#define _003_prescH $0C
-	#define _003_prescL $0D
+	#define _030_v8a $00
+	#define _030_prel $05
+	#define _030_pol $06
+	#define _030_mode $07
+	#define _030_compH $08
+	#define _030_compL $09
+	#define _030_baseH $0A
+	#define _030_baseL $0B
+	#define _030_prescH $0C
+	#define _030_prescL $0D
 		;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
@@ -2138,32 +2138,32 @@ tim2OnePulsePwmCh2Setup
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_003_compH,SP)
+	LD A, (_030_compH,SP)
 	LD TIM2_CCR2H, A
-	LD A, (_003_compL,SP)
+	LD A, (_030_compL,SP)
 	LD TIM2_CCR2L, A
 	;--load base, high byte first
-	LD A, (_003_baseH,SP)
+	LD A, (_030_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_003_baseL,SP)
+	LD A, (_030_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR2
-	LD A, (_003_mode,SP)
+	LD A, (_030_mode,SP)
 	LD TIM2_CCMR2, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM2_CCER1
 	AND A, #$0F
-	LD (_003_v8a,SP), A; store
+	LD (_030_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_003_pol,SP)
+	LD A, (_030_pol,SP)
 	OR A, #$01; turn on channel 
 	SWAP A;  A << 4
 	;--3) apply another regs
-	OR A, (_003_v8a,SP)
+	OR A, (_030_v8a,SP)
 	LD TIM2_CCER1, A
 	;--CR1
-	LD A, (_003_prel,SP)
+	LD A, (_030_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$08;//one pulse mode, stopped
 	LD TIM2_CR1, A
@@ -2194,16 +2194,16 @@ tim2OnePulsePwmCh3Setup
 		;--allocate memory
 		SUBW SP , #$01
 	;-variables
-	#define _004_v8a $00
-	#define _004_prel $05
-	#define _004_pol $06
-	#define _004_mode $07
-	#define _004_compH $08
-	#define _004_compL $09
-	#define _004_baseH $0A
-	#define _004_baseL $0B
-	#define _004_prescH $0C
-	#define _004_prescL $0D
+	#define _031_v8a $00
+	#define _031_prel $05
+	#define _031_pol $06
+	#define _031_mode $07
+	#define _031_compH $08
+	#define _031_compL $09
+	#define _031_baseH $0A
+	#define _031_baseL $0B
+	#define _031_prescH $0C
+	#define _031_prescL $0D
 		;--disable timer
 	LD A, TIM2_CR1
 	AND A, #$FE;
@@ -2213,32 +2213,32 @@ tim2OnePulsePwmCh3Setup
 	LD TIM2_PSCR, A
 	LD A, TIM2_PSCR
 	;--load comparand, Hi firstly
-	LD A, (_004_compH,SP)
+	LD A, (_031_compH,SP)
 	LD TIM2_CCR3H, A
-	LD A, (_004_compL,SP)
+	LD A, (_031_compL,SP)
 	LD TIM2_CCR3L, A
  
 	;--load base, high byte first
-	LD A, (_004_baseH,SP)
+	LD A, (_031_baseH,SP)
 	LD TIM2_ARRH, A
-	LD A, (_004_baseL,SP)
+	LD A, (_031_baseL,SP)
 	LD TIM2_ARRL, A
 	;--load CCMR1
-	LD A, (_004_mode,SP)
+	LD A, (_031_mode,SP)
 	LD TIM2_CCMR3, A
 	;--polarity
 	; 1)store content of another channels
 	LD A, TIM2_CCER2
 	AND A, #$F0
-	LD (_004_v8a,SP), A; store
+	LD (_031_v8a,SP), A; store
 	;--2)load data for loading in register
-	LD A, (_004_pol,SP)
+	LD A, (_031_pol,SP)
 	OR A, #$01; turn on channel 
 	;--3)apply another regs
-	OR A, (_004_v8a,SP)
+	OR A, (_031_v8a,SP)
 	LD TIM2_CCER2, A
 	;--CR1
-	LD A, (_004_prel,SP)
+	LD A, (_031_prel,SP)
 	LD TIM2_CR1, A
 	OR A, #$08;//ONE PULSE mode, stopped
 	LD TIM2_CR1, A
@@ -2255,4 +2255,74 @@ tim2OnePulseModeStart
 	OR A, #$09; ///ONE PULSE MODE + Go
 	LD TIM2_CR1, A
 	RET
+	;----
+;  _____ ___ __  __ _ _  
+; |_   _|_ _|  \/  | | | 
+;   | |  | || |\/| |_  _|
+;   |_| |___|_|  |_| |_|
 	
+	 ;-TEST PASSED!
+ ;===PROCEDURE==tim4BaseInit
+ ;@prescaler8,   must be in range $00-$07
+ ;				    so, divider=2 in power(prescaler)
+ ;@counter8,     counter value
+ ;@options8,   CR1 content
+ ;---
+ ;SP +3
+ ;stack frame:
+ ;[A|RET|options|counter|prescaler]
+tim4BaseInit 
+	#define _032_options $04
+	#define _032_counter $05
+	#define _032_prescaler $06
+	;--save A
+	PUSH A
+	;-disable counter
+	LD A,#$00
+	LD TIM4_CR1, A
+	;--prescaler 
+	LD A, (_032_prescaler,SP)
+	LD TIM4_PSCR, A
+	;--counter 
+	LD A, (_032_counter,SP)
+	LD TIM4_ARR, A
+	;--options
+	LD A,(_032_options,SP)
+	OR A, #$01 ;ON
+	LD TIM4_CR1, A
+	POP A
+	RET
+ ;--TESRT PASSED!
+ ;===PROCEDURE==tim4BaseInitIT
+ ;@prescaler8,   must be in range $00-$07
+ ;				    so, divider=2 in power(prescaler)
+ ;@counter8,     counter value
+ ;@options8,   CR1 content
+ ;---
+ ;SP +3
+ ;stack frame:
+ ;[A|RET|options|counter|prescaler]
+tim4BaseInitIT 
+	#define _033_options $04
+	#define _033_counter $05
+	#define _033_prescaler $06
+	;--save A
+	PUSH A
+	;-disable counter
+	LD A,#$00
+	LD TIM4_CR1, A
+	;--enable interrupts
+	LD A, #$01
+	LD TIM4_IER, A
+	;--prescaler 
+	LD A, (_033_prescaler,SP)
+	LD TIM4_PSCR, A
+	;--counter 
+	LD A, (_033_counter,SP)
+	LD TIM4_ARR, A
+	;--options
+	LD A,(_033_options,SP)
+	OR A, #$01 ;ON
+	LD TIM4_CR1, A
+	POP A
+	RET
