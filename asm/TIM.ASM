@@ -97,7 +97,7 @@ tim1BaseModeSetupIT
 	RET
 
   ;--TEST PASSED!
-		;===PROCEDURE 'tim1OutputCompareCh1Setup'
+;===PROCEDURE 'tim1OutputCompareCh1Setup'
   ;@presc16,  
 	;@base16, -> base of counter, ARRL
 	;@comp16, -> capture compare CCR1 content
