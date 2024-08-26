@@ -191,6 +191,27 @@
 	#define	ADC_AWSRL	$540D;
 	#define	ADC_AWCRH	$540E;
 	#define	ADC_AWCRL 	$540F;
+	;;buffers
+	#define	ADC_DB0RH 	$53E0;
+	#define	ADC_DB0RL 	$53E1;
+	#define	ADC_DB1RH 	$53E2;
+	#define	ADC_DB1RL 	$53E3;
+	#define	ADC_DB2RH 	$53E4;
+	#define	ADC_DB2RL 	$53E5;
+	#define	ADC_DB3RH 	$53E6;
+	#define	ADC_DB3RL 	$53E7;
+	#define	ADC_DB4RH 	$53E8;
+	#define	ADC_DB4RL 	$53E9;
+	#define	ADC_DB5RH 	$53EA;
+	#define	ADC_DB5RL 	$53EB;
+	#define	ADC_DB6RH 	$53EC;
+	#define	ADC_DB6RL 	$53ED;
+	#define	ADC_DB7RH 	$53EC;
+	#define	ADC_DB7RL 	$53ED;
+	#define	ADC_DB8RH 	$53EC;
+	#define	ADC_DB8RL 	$53ED;
+	
+	
 	;----------TIM2----------
 	#define	TIM2_CR1 	$5300;
 	#define	TIM2_IER	$5303;
@@ -203,7 +224,7 @@
 	#define	TIM2_CCER1	$530A;
 	#define	TIM2_CCER2	$530B;
 	#define	TIM2_CNTRH 	$530C;
-	#define	TIM2_CNTRL      $530D;
+	#define	TIM2_CNTRL  $530D;
 	#define	TIM2_PSCR	$530E;
 	#define	TIM2_ARRH	$530F;
 	#define	TIM2_ARRL	$5310;
