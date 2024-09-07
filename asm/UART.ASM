@@ -166,7 +166,8 @@ L_U1001_nsb
 ;SP +5
 ;  0  1 2 4    5         6      7      8 
 ;[v8a|A|RET|stopBits|dataLength|baudRate]
-
+;NOTE! The transmitter disable after procedure
+;You turn it on manually when transmission is starting 
 uart1DuplexSetupIT
   ;--store A
 	PUSH A
@@ -218,8 +219,8 @@ L_U1003_nsb
 	;turn on interrupt on tx complete, Rx not empty
 	BSET UART1_CR2, #$6; TCIEN
 	BSET UART1_CR2, #$5; RIEN
-	;--set  "Transmitter enable", "receiver enable"
-	BSET UART1_CR2 , #$3
+	;--set   "receiver enable"
+	;BSET UART1_CR2 , #$3
 	BSET UART1_CR2 , #$2
 	;--restore stack
 	ADDW SP, #$01
