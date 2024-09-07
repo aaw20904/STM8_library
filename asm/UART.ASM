@@ -67,8 +67,24 @@ L_U1000_nsb
 	ADDW SP, #$01
 	POP A
 	RET
-	;==PROCEDURE==uart1TransmitterSetup
- 
+
+;-------------transmitting string flowchart-----------------------
+;           turn Transmitter ON -> TEN (b3) UART_CR2
+;               waiting, until TXE=1 (bit7)
+;                 *1:( index > MA X?)      when true 
+;   UART_DR=data[index]          waiting, until TC=1 (b6)
+;   waiting, until TXE=1         clear TEN (b3) in UART_CR2
+;   Go to *1:                    write any data in UART_DR to clear TXE
+;                                   END
+;------------------------------------------------------------
+;    NOTE: 1)waiting og flags TXE, TE can be done by interrrupts
+;     to avoid blocking of an execution stream
+;     2) The transmitter may be working incorrectly (one short pulse) 
+;        when you don`t wait after turn on. 
+;
+;-------------------------------------------------------
+
+;==PROCEDURE==uart1TransmitterSetup
 ;@baudRate16, divider
 ;@dataLength8, $10->9bits (1stop 1 start) , $00->8bits
           ;(set  manually below)
@@ -78,6 +94,8 @@ L_U1000_nsb
 ;SP +5
 ;  0  1 2 4    5         6      7      8 
 ;[v8a|A|RET|stopBits|dataLength|baudRate]
+;NOTE! The transmitter disable after procedure
+;You turn it on manually when transmission is starting 
 
 uart1TransmitterSetup
   ;--store A
@@ -130,7 +148,7 @@ L_U1001_nsb
 	; TCIEN interrupt on tx complete
 	BSET UART1_CR2, #$6 
 	;--setting TEN bit "Transmitter enable"
-	BSET UART1_CR2 , #$3
+	;BSET UART1_CR2 , #$3
 	;--restore stack
 	ADDW SP, #$01
 	POP A
