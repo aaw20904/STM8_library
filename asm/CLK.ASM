@@ -21,21 +21,31 @@ clkBusPeripherial2
 	LD CLK_PCKENR2, A
 	POP A
 	RET	
+	;==P R O C E D U R E=="set HSI divider"
+	;--@ char divider
+	;STACK after return +1
+clkSetHsiDivider
+	;--store registers A,X,Y,CC (1+2+2+1=6Bytes)
+	PUSH A
+	;-read default value 
+	LD A, CLK_CKDIVR
+	;---clear all the hsi divider bits
+	AND A, #$E7
+	;--1st paprameter has offset 9 bytes
+	; because A,X,Y,CC,SP has ben stored later 
+	OR A, ($04,SP)
+	;---update CLK_CKDIVR
+	LD CLK_CKDIVR, A
+	;--restore registers
+	POP A
+	RET
 	;===P R O C E D U R E=switch to Crystal
 	;--NO PARAMS
 	;STACK after return 0
 clkSwitchToCrystal
 	PUSH A
-	;--tuurn on HSE oscillator
-	LD A, HSEEN
-	LD CLK_ECKR, A
-clkSwitchToCrystal_hsi_rdy
-		;--wait until crystal oscillator ready (HSERDY)
-	BTJF CLK_ECKR, #$01, clkSwitchToCrystal_hsi_rdy
 	;---Enable the switching mechanism
-	LD A, CLK_SWCR
-	OR A, SWEN
-	LD CLK_SWCR, A
+	BSET CLK_SWCR, #1 ;SWEN
 	;---select source clock
 	;0xE1: HSI selected as master clock source (reset value)
 	;0xD2: LSI selected as master clock source (only if LSI_EN
@@ -43,6 +53,11 @@ clkSwitchToCrystal_hsi_rdy
 	;0xB4: HSE selected as master clock source
 	LD A, #$B4
 	LD CLK_SWR, A
+		;;waint until flag SWIF
+_sw_clk_bsy1
+  BTJF CLK_SWCR, #3, _sw_clk_bsy1
+	BRES CLK_SWCR, #3 ; clear SWIF 
+	NOP
 	NOP
 	NOP
 	NOP
