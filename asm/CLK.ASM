@@ -44,8 +44,9 @@ clkSetHsiDivider
 	;STACK after return 0
 clkSwitchToCrystal
 	PUSH A
-	;---Enable the switching mechanism
+	 	;---Enable the switching mechanism
 	BSET CLK_SWCR, #1 ;SWEN
+	BSET CLK_SWCR, #2; SWIEN enable interrupt
 	;---select source clock
 	;0xE1: HSI selected as master clock source (reset value)
 	;0xD2: LSI selected as master clock source (only if LSI_EN
@@ -53,19 +54,14 @@ clkSwitchToCrystal
 	;0xB4: HSE selected as master clock source
 	LD A, #$B4
 	LD CLK_SWR, A
-		;;waint until flag SWIF
-_sw_clk_bsy1
-  BTJF CLK_SWCR, #3, _sw_clk_bsy1
-	BRES CLK_SWCR, #3 ; clear SWIF 
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
+       ;waint until flag SWIF
+        WFI
 	POP A
 	RET
-	
+;--ISR for the "clkSwitchToCrystal", insert at the IRQ2 vector
+clockISR
+  BRES CLK_SWCR, #3 ; clear SWIF (in the ISR)
+  IRET
 	
 	;==P R O C E D U R E=="set HSI divider"
 	;--@ char divider
