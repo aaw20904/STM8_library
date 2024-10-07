@@ -47,24 +47,24 @@ clkSetHsiDivider
 	;--restore registers
 	POP A
 	RET
-       ;=====PROCEDURE===SwitchToCrystalManually
+       ;=====PROCEDURE===clkSwitchToCrystalManually
        ;--IMPORTANT!-when all the interrupts has ben configured,
        ;--you must call the RIM instruction. 
        ;------
        ;--SP +0
-SwitchToCrystalManually
-         ;BSET CLK_SWCR, #2 ;1)interupt enable SWIEN bit
-	 LD A, #$B4        ;2)write HSE as a source
+clkSwitchToCrystalManually
+	 LD A, #$B4        ;1)write HSE as a source
 	 LD CLK_SWR, A
-	 LD XTAL_FLAGS , #0
-wait_xtal_rdy
-   BTJF CLK_SWCR, #3, wait_xtal_rdy  ;3)waiting until SWIF 
+_hsi_bsy_01           ;2)wait until OSC will be ready
+   BTJF CLK_ICKR, #1,  _hsi_bsy_01
+wait_xtal_int
+   BTJF CLK_SWCR, #3, wait_xtal_int  ;3)waiting for SWIF flag
 	 BRES CLK_SWCR, #3 ;4) clear SWIF flag
 	 BSET CLK_SWCR, #1;  5)execute switch ( SWEN bit)
 wait_clk_swich
    BTJT CLK_SWCR, #0,wait_clk_swich ;6)waiting until switch be free (SWBSY)
 	 NOP 
-  IRET
+  RET
 	;===P R O C E D U R E=switch to Crystal
 	;--NO PARAMS, using interrupts (irq 2), plase see the 'clockISR'
 	;STACK after return 0
