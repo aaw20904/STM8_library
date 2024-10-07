@@ -48,8 +48,7 @@ clkSetHsiDivider
 	POP A
 	RET
        ;=====PROCEDURE===clkSwitchToCrystalManually
-       ;--IMPORTANT!-when all the interrupts has ben configured,
-       ;--you must call the RIM instruction. 
+.      ;@ no params
        ;------
        ;--SP +0
 clkSwitchToCrystalManually
