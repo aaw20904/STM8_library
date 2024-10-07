@@ -1,6 +1,14 @@
 ;---clock library for STM8
 ;--Author: Andrii Androsovych
-	;====P R O C E D U R E===turn on clk bus
+;! IMPORTANT NOTE. 
+ ; ____  ___ __  __  
+ ;|  _ \|_ _|  \/  | 
+ ;| |_) || || |\/| | 
+ ;|  _ < | || |  | | 
+ ;|_| \_\___|_|  |_| 
+ ;  instruction MUST be called when all interrupts has been configured
+
+          ;====P R O C E D U R E===turn on clk bus
 	;@peripherial8
 	;TIM1-$80,TIM3-$40,TIM2/5-$20,TIM4/6-$10,UART-see datasheet,
 	;SPI-$2,I2C-1
