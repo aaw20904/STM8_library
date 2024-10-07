@@ -1,4 +1,11 @@
 ;---Author: Andrii Androsovych
+;! IMPORTANT NOTE. 
+ ; ____  ___ __  __  
+ ;|  _ \|_ _|  \/  | 
+ ;| |_) || || |\/| | 
+ ;|  _ < | || |  | | 
+ ;|_| \_\___|_|  |_| 
+ ;  instruction MUST be called when all interrupts has been configured
 ;initialization  UART
 ;==PROCEDURE==uart1ReceiverSetup
 ;@baudRate16, divider
