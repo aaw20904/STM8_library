@@ -39,6 +39,24 @@ clkSetHsiDivider
 	;--restore registers
 	POP A
 	RET
+       ;=====PROCEDURE===SwitchToCrystalManually
+       ;--IMPORTANT!-when all the interrupts has ben configured,
+       ;--you must call the RIM instruction. 
+       ;------
+       ;--SP +0
+SwitchToCrystalManually
+         ;BSET CLK_SWCR, #2 ;1)interupt enable SWIEN bit
+	 LD A, #$B4        ;2)write HSE as a source
+	 LD CLK_SWR, A
+	 LD XTAL_FLAGS , #0
+wait_xtal_rdy
+   BTJF CLK_SWCR, #3, wait_xtal_rdy  ;3)waiting until SWIF 
+	 BRES CLK_SWCR, #3 ;4) clear SWIF flag
+	 BSET CLK_SWCR, #1;  5)execute switch ( SWEN bit)
+wait_clk_swich
+   BTJT CLK_SWCR, #0,wait_clk_swich ;6)waiting until switch be free (SWBSY)
+	 NOP 
+  IRET
 	;===P R O C E D U R E=switch to Crystal
 	;--NO PARAMS, using interrupts (irq 2), plase see the 'clockISR'
 	;STACK after return 0
@@ -69,6 +87,37 @@ clkSwitchToCrystal
 clockISR
   BRES CLK_SWCR, #3 ; clear SWIF (in the ISR)
   IRET
+;--must be debugged--{
+;===P R O C E D U R E=switch to CrystalEX
+	;--NO PARAMS, using interrupts (irq 2), plase see the 'clockISR'
+	;STACK after return 0
+clkSwitchToCrystalEX
+	PUSH A
+	;1)---Enable the switching mechanism
+	BSET CLK_SWCR, #1 ;SWEN
+	;BSET CLK_SWCR, #2; SWIEN enable interrupt
+	;2)---select source clock
+	;0xE1: HSI selected as master clock source (reset value)
+	;0xD2: LSI selected as master clock source (only if LSI_EN
+	;option bit is set)
+	;OUR CASE = 0xB4: HSE selected as master clock source
+	LD A, #$B4
+	LD CLK_SWR, A
+	;3)waiting until clock system does 
+	; switching process automatically
+wait_xtal_rdy1
+	BTJF CLK_SWCR, #3, wait_xtal_rdy1 
+	;4) clear SWIF flag
+	BRES CLK_SWCR, #3 
+	POP A
+	RET
+	
+;--INTERRUPT SERVICE ROUTINE for clock, insert at the IRQ2 vector
+clockISR
+  BRES CLK_SWCR, #3 ; clear SWIF (in the ISR)
+  IRET
+;=====
+;----}
 	
 	;==P R O C E D U R E=="set HSI divider"
 	;--@ char divider
