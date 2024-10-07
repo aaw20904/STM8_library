@@ -65,7 +65,7 @@ wait_clk_swich
 	 NOP 
   RET
 	 
- ;===P R O C E D U R E=switch to Crystal in automatic mode
+;===P R O C E D U R E=switch to Crystal in automatic mode
 	;--NO PARAMS 
 	;STACK after return 0
 clkSwitchToCrystalAuto
@@ -82,8 +82,10 @@ clkSwitchToCrystalAuto
 	LD CLK_SWR, A
 	;3)waiting until clock system does 
 	; switching process automatically
-wait_xtal_rdy1
-	BTJF CLK_SWCR, #3, wait_xtal_rdy1 
+wait_xtal_rdy
+	BTJF CLK_ICKR, #1, wait_xtal_rdy 
+wait_xtal_int
+	BTJF CLK_SWCR, #3, wait_xtal_int 
 	;4) clear SWIF flag
 	BRES CLK_SWCR, #3 
 	POP A
