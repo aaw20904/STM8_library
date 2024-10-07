@@ -65,41 +65,11 @@ wait_clk_swich
    BTJT CLK_SWCR, #0,wait_clk_swich ;6)waiting until switch be free (SWBSY)
 	 NOP 
   RET
-	;===P R O C E D U R E=switch to Crystal
-	;--NO PARAMS, using interrupts (irq 2), plase see the 'clockISR'
+	 
+ ;===P R O C E D U R E=switch to Crystal in automatic mode
+	;--NO PARAMS 
 	;STACK after return 0
-clkSwitchToCrystal
-	PUSH A
-	;---Enable the switching mechanism
-	BSET CLK_SWCR, #1 ;SWEN
-	BSET CLK_SWCR, #2; SWIEN enable interrupt
-	;---select source clock
-	;0xE1: HSI selected as master clock source (reset value)
-	;0xD2: LSI selected as master clock source (only if LSI_EN
-	;option bit is set)
-	;OUR CASE = 0xB4: HSE selected as master clock source
-	LD A, #$B4
-	LD CLK_SWR, A
-	;waiting until clock system does 
-	; switching process automatically
-	NOP
-	NOP
-	NOP
-	NOP
-	;waiting until the HSI be ready
-        WFI
-	   ; !!!!! clear SWIF flag in the interrupt service routine
-	POP A
-	RET
-;--INTERRUPT SERVICE ROUTINE for clock, insert at the IRQ2 vector
-clockISR
-  BRES CLK_SWCR, #3 ; clear SWIF (in the ISR)
-  IRET
-;--must be debugged--{
-;===P R O C E D U R E=switch to CrystalEX
-	;--NO PARAMS, using interrupts (irq 2), plase see the 'clockISR'
-	;STACK after return 0
-clkSwitchToCrystalEX
+clkSwitchToCrystalAuto
 	PUSH A
 	;1)---Enable the switching mechanism
 	BSET CLK_SWCR, #1 ;SWEN
@@ -119,13 +89,6 @@ wait_xtal_rdy1
 	BRES CLK_SWCR, #3 
 	POP A
 	RET
-	
-;--INTERRUPT SERVICE ROUTINE for clock, insert at the IRQ2 vector
-clockISR
-  BRES CLK_SWCR, #3 ; clear SWIF (in the ISR)
-  IRET
-;=====
-;----}
 	
 	;==P R O C E D U R E=="set HSI divider"
 	;--@ char divider
