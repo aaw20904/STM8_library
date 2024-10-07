@@ -1,5 +1,12 @@
 ;---STM8 ADC initialization library
 ;Author : Andrii Androsovych
+;! IMPORTANT NOTE. 
+ ; ____  ___ __  __  
+ ;|  _ \|_ _|  \/  | 
+ ;| |_) || || |\/| | 
+ ;|  _ < | || |  | | 
+ ;|_| \_\___|_|  |_| 
+ ;  instruction MUST be called when all interrupts has been configured
 	;====P R O C E D U R E===adcSingleModeSetup
 	;@channel8, $00->AIN0, $01->AIN1, #$0F->AIN15
 	;@prescaler, $00->/2, $10->/3, $20->/4, $30->/6, $40->/8, $50->/10
