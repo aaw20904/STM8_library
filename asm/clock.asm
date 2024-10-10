@@ -1,90 +1,70 @@
 
-	;-----L I B R A R Y-----STM8-----
+	 
   ;Author : Andrii Androsovych
-	;====P R O C E D U R E===turn on clk bus
-	;@peripherial8
-	;TIM1-$80,TIM3-$40,TIM2/5-$20,TIM4/6-$10,UART-see datasheet,
-	;SPI-$2,I2C-1
-	;STACK after return +1
-clkBusPeripherial1
-	PUSH A
-	LD A, ($04,SP)
-	LD CLK_PCKENR1, A
-	POP A
-	RET
-	;====P R O C E D U R E===turn on clk bus
-	;@peripherial8
-	;CAN-$80, ADC-$08, AWU-$04
-	;STACK after return +1
-clkBusPeripherial2
-	PUSH A
-	LD A, ($04,SP)
-	LD CLK_PCKENR2, A
-	POP A
-	RET	
-	;===P R O C E D U R E=switch to Crystal
-	;--NO PARAMS
-	;STACK after return 0
-clkSwitchToCrystal
-	PUSH A
-	;--tuurn on HSE oscillator
-	LD A, HSEEN
-	LD CLK_ECKR, A
-clkSwitchToCrystal_hsi_rdy
-		LD A, CLK_ECKR
-		AND A, HSERDY
-		TNZ A
-		;--wait until crystal oscillator ready
-	JREQ clkSwitchToCrystal_hsi_rdy
-	;---Enable the switching mechanism
-	LD A, CLK_SWCR
-	OR A, SWEN
-	LD CLK_SWCR, A
-	;---select source clock
-	;0xE1: HSI selected as master clock source (reset value)
-	;0xD2: LSI selected as master clock source (only if LSI_EN
-	;option bit is set)
-	;0xB4: HSE selected as master clock source
-	LD A, #$B4
-	LD CLK_SWR, A
-	POP A
-	RET
-	
-	
-	;==P R O C E D U R E=="set HSI divider"
-	;--@ char divider
-	;STACK after return +1
-clkSetHsiDivider
-	;--store registers A,X,Y,CC (1+2+2+1=6Bytes)
-	PUSH A
-	;-read default value 
-	LD A, CLK_CKDIVR
-	;---clear all the hsi divider bits
-	AND A, #$E7
-	;--1st paprameter has offset 9 bytes
-	; because A,X,Y,CC,SP has ben stored later 
-	OR A, ($04,SP)
-	;---update CLK_CKDIVR
-	LD CLK_CKDIVR, A
-	;--restore registers
-	POP A
-	RET
-	
-	;======P R O C E D U R E==="set CPU divider"
-	;@ char divider 
-	;STACK after return +1
-clkSetCpuDivider
-		;--store registers A,X,Y,CC (1+2+2+1=6Bytes)
-	PUSH A
-	;-read default value 
-	LD A, CLK_CKDIVR
-	;---clear all the hsi divider bits
-	AND A, #$f8
-	;--1st paprameter has offset 9 bytes
-	; because A,X,Y,CC,SP has ben stored later
-	OR A, ($04,SP)
-	;---update CLK_CKDIVR
-	LD CLK_CKDIVR, A
-		;--restore registers
-	POP A
-	RET	
+	segment byte at 0000-200 'user_ram'
+ 
+int32Acc   equ $0000
+int32Item1 equ $0004  
+int32Item2 equ $0008
+shortVar1 equ $000c
+charCounter equ $0010
+shortPtr equ $0011
+		;--macro---adding two 32bit numbers
+Add32Macro MACRO V1,V2
+  LDW X, V1
+	LDW Y, V2
+	LD A, ($3,X)
+	ADD A, ($3,Y)
+	LD ($3,X), A ;store b0
+	LD A, ($2,X)
+	ADC A, ($2,Y)
+	LD ($2,X), A ;store b1
+	LD A, ($1,X)
+	ADC A, ($1,Y)
+	LD ($1,X), A ;store b2
+	LD A, (X)
+	ADC A, (Y)
+	LD (X), A ;store b3
+	MEND
+;--macro---adding 16 to 32bit numbers
+Add16To32Macro MACRO V16_1,V32_2
+  LDW X, V16_1
+	LDW Y, V32_2
+	LD A, ($1,X)
+	ADD A, ($3,Y)
+	LD ($3,Y), A ;;store 0
+	LD A, (X)
+	ADC A, ($2,Y)
+	LD ($2,Y), A;store 1
+	LD A, ($1,Y)
+	ADC A, #0
+	LD ($1,Y), A ;store 2
+	LD A, (Y)
+	ADC A, #0;
+	LD (Y), A ; store 3
+	MEND
+
+;in main:
+ ;store to ptr frst address of array
+	 LDW Y, #_TBL
+	 LDW X, #shortPtr
+	 LDW (X),Y
+_checkSum	 
+	 ;load into shotr variable value by index
+	 LDW X, shortPtr
+	 LDW X, (X) ;X=shortPtr[]
+	 LDW Y, #shortVar1
+	 LDW (Y), X ;shortVar=shortPtr[]
+   Add16To32Macro #shortVar1,  #int32Acc
+	 ;add pointer
+	 LDW X, shortPtr
+	 ADDW X, #2
+	 LDW Y, #shortPtr
+	 LDW (Y), X ;store updated pointer
+	 LDW X, #charCounter
+	 LD A, (X)
+	 INC A
+	 LD (X), A
+	 SUB A, #$40
+	 JRSLE _checkSum
+
