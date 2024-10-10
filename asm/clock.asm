@@ -9,6 +9,7 @@ int32Item2 equ $0008
 shortVar1 equ $000c
 charCounter equ $0010
 shortPtr equ $0011
+	segment 'rom'
 		;--macro---adding two 32bit numbers
 Add32Macro MACRO V1,V2
   LDW X, V1
