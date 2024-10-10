@@ -68,4 +68,15 @@ _checkSum
 	 LD (X), A
 	 SUB A, #$40
 	 JRSLE _checkSum
+ ;---data area, Kaiser shape, K=5 , checksum 524278 or $0007 FFF6 in hex
+_TBL DC.W $ff6a,$ff3e,$ff1c,$ff0e,$ff1b,$ff4f,$ffb6
+  DC.W $005b,$014b,$0291,$0439,$064a,$08cc,$0bc3,$0f31
+  DC.W $1311,$175e,$1c14,$2118,$2661,$2bde,$316b
+  DC.W $36f7,$3cf5,$4193,$4668, $4ac5, $4e99
+  DC.W $51c6,$5436,$55e4,$56bb,$56bb,$55e4
+  DC.W $5436,$51c6, $4e99, $4ac5,$4668, $4193
+  DC.W $3cf5,$36f7, $316b, $2bde, $2661, $2118
+  DC.W $1c14,$175e,$1311,$0f31,$0bc3,$08cc,$064a
+  DC.W $0439,$0291,$014b,$005b,$ffb6,$ff4f,$ff1b,$ff0e
+  DC.W $ff1c, $ff3e,$ff6a
 
