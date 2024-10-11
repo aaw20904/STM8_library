@@ -48,35 +48,41 @@ Add16To32Macro MACRO V16_1,V32_2
 ;in main:
  ;store to ptr frst address of array
 	 LDW Y, #_TBL
-	 LDW X, #shortPtr
+   LDW X, #shortPtr
 	 LDW (X),Y
 _checkSum	 
-	 ;load into shotr variable value by index
-	 LDW X, shortPtr
-	 LDW X, (X) ;X=shortPtr[]
-	 LDW Y, #shortVar1
-	 LDW (Y), X ;shortVar=shortPtr[]
-   Add16To32Macro #shortVar1,  #int32Acc
+	 ;load into long variable value by index
+	 ;LDW X, shortPtr
+	 ;LDW X, ($2,X) ;LOW 16bits from table
+	 ;LDW Y, #int32Item1
+	 ;LDW ($2,Y),X ;store low 16bits to int32Item1
+	 ;LDW X, shortPtr
+	 ;LDW X, (X) ;HIGH 16bits from table
+	 ;LDW (Y),X ;store high 16 bits to int32Item1
+   Add32Macro  #int32Acc shortPtr
 	 ;add pointer
 	 LDW X, shortPtr
-	 ADDW X, #2
-	 LDW Y, #shortPtr
-	 LDW (Y), X ;store updated pointer
-	 LDW X, #charCounter
-	 LD A, (X)
+	 ADDW X, #4
+	 LDW shortPtr, X
+	 ;LDW Y, #shortPtr
+	 ;LDW (Y), X ;store updated pointer
+	 ;LDW X, #charCounter
+	 ;LD A, (X)
+	 LD A, charCounter
 	 INC A
-	 LD (X), A
+	 LD charCounter,A
+	 ;LD (X), A
 	 SUB A, #$40
 	 JRSLE _checkSum
- ;---data area, Kaiser shape, K=5 , checksum 524278 or $0007 FFF6 in hex
-_TBL DC.W $ff6a,$ff3e,$ff1c,$ff0e,$ff1b,$ff4f,$ffb6
-  DC.W $005b,$014b,$0291,$0439,$064a,$08cc,$0bc3,$0f31
-  DC.W $1311,$175e,$1c14,$2118,$2661,$2bde,$316b
-  DC.W $36f7,$3cf5,$4193,$4668, $4ac5, $4e99
-  DC.W $51c6,$5436,$55e4,$56bb,$56bb,$55e4
-  DC.W $5436,$51c6, $4e99, $4ac5,$4668, $4193
-  DC.W $3cf5,$36f7, $316b, $2bde, $2661, $2118
-  DC.W $1c14,$175e,$1311,$0f31,$0bc3,$08cc,$064a
-  DC.W $0439,$0291,$014b,$005b,$ffb6,$ff4f,$ff1b,$ff0e
-  DC.W $ff1c, $ff3e,$ff6a
+
+ 
+ ;Kiser, K=5
+ ;---data area , checksum 1048560 or $000F_FFF0 in hex (4 bit shift)
+_TBL DC.L $51, $B8, $157, $23D, $376, $510, $718, $99A, $CA2, $1036,
+	 DC.L $145F, $191E, $1E73, $244C, $2A91, $31A4, $3938, $4117, $490C, $50FE,
+   DC.L $58FC, $5FCA, $6916, $6A9F, $77B3, $7F03, $83B0, $8920, $8E47, $920B,
+   DC.L $9425, $94E5, $94E5, $920B, $8E47, $8920, $83B0, $7F03, $77B3, $6A9F,
+   DC.L $6916, $5FCA, $58FC, $50FE, $490C, $4117, $3938, $31A4, $2A91, $244C,
+   DC.L $1E73, $191E, $145F, $1036, $CA2, $99A, $718, $510, $376, $23D,
+	 DC.L $157, $B8, $51
 
