@@ -2189,12 +2189,12 @@ tim4BaseInit
 	PUSH A
 	;--disable timer
 	BRES TIM4_CR1, #$00
-	;--prescaler 
-	LD A, (_032_prescaler,SP)
-	LD TIM4_PSCR, A
 	;--counter 
 	LD A, (_032_counter,SP)
 	LD TIM4_ARR, A
+        ;--prescaler 
+	LD A, (_032_prescaler,SP)
+	LD TIM4_PSCR, A
 	;--options
 	LD A,(_032_options,SP)
 	OR A, #$01 ;ON
