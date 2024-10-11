@@ -46,43 +46,33 @@ Add16To32Macro MACRO V16_1,V32_2
 	MEND
 
 ;in main:
- ;store to ptr frst address of array
+ ;----test code BEGIN
+;store to ptr frst address of array
 	 LDW Y, #_TBL
-   LDW X, #shortPtr
-	 LDW (X),Y
+   LDW shortPtr, Y
+
 _checkSum	 
-	 ;load into long variable value by index
-	 ;LDW X, shortPtr
-	 ;LDW X, ($2,X) ;LOW 16bits from table
-	 ;LDW Y, #int32Item1
-	 ;LDW ($2,Y),X ;store low 16bits to int32Item1
-	 ;LDW X, shortPtr
-	 ;LDW X, (X) ;HIGH 16bits from table
-	 ;LDW (Y),X ;store high 16 bits to int32Item1
+	 INC charCounter
    Add32Macro  #int32Acc shortPtr
 	 ;add pointer
 	 LDW X, shortPtr
 	 ADDW X, #4
 	 LDW shortPtr, X
-	 ;LDW Y, #shortPtr
-	 ;LDW (Y), X ;store updated pointer
-	 ;LDW X, #charCounter
-	 ;LD A, (X)
-	 LD A, charCounter
-	 INC A
-	 LD charCounter,A
-	 ;LD (X), A
-	 SUB A, #$40
-	 JRSLE _checkSum
+   LD A, charCounter
+	 SUB A, #$3f
+	 JRNE _checkSum
+   	 
+	 ;test code END
 
  
- ;Kiser, K=5
+;Kiser, K=5
  ;---data area , checksum 1048560 or $000F_FFF0 in hex (4 bit shift)
-_TBL DC.L $51, $B8, $157, $23D, $376, $510, $718, $99A, $CA2, $1036,
-	 DC.L $145F, $191E, $1E73, $244C, $2A91, $31A4, $3938, $4117, $490C, $50FE,
-   DC.L $58FC, $5FCA, $6916, $6A9F, $77B3, $7F03, $83B0, $8920, $8E47, $920B,
-   DC.L $9425, $94E5, $94E5, $920B, $8E47, $8920, $83B0, $7F03, $77B3, $6A9F,
-   DC.L $6916, $5FCA, $58FC, $50FE, $490C, $4117, $3938, $31A4, $2A91, $244C,
-   DC.L $1E73, $191E, $145F, $1036, $CA2, $99A, $718, $510, $376, $23D,
-	 DC.L $157, $B8, $51
+_TBL DC.L $1, $5, $11, $2b, $59, $a6, $121, $1dd, $2ef, $471, $680,
+	 DC.L  $93d, $cc4, $1136, $16af, $1d44, $2504, $2df5, $3809,
+   DC.L $432d, $4f42, $5c14, $695a, $76c9, $840e, $90c1, $9c8d,
+   DC.L $a714, $aff7, $b6e3, $bba4, $be19, $be19, $bba4, $b6e3,
+   DC.L  $aff7, $a714, $9c8d, $90c1, $840e, $76c9, $695a, $5c14,
+   DC.L  $4f42, $432d, $3809, $2df5, $2504, $1d44, $16af, $1136,
+	 DC.L $cc4, $93d, $680, $471, $2ef, $1dd, $121, $a6, $59, $2b,
+	 DC.L  $11, $5, $1
 
